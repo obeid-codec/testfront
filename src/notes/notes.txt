@@ -1,0 +1,1 @@
+npm install redux react-redux redux-thunk redux-logger @redux-devtools/extension
