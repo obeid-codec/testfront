@@ -26,8 +26,8 @@ function App() {
         <Alert />
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/login" element={<UserLogin />} />
-          <Route path="/register" element={<UserRegister />} />
+          <Route path="/users/login" element={<UserLogin />} />
+          <Route path="/users/register" element={<UserRegister />} />
           <Route path="/student/details" element={<StudentDetails />} />
           <Route path="/students" element={<StudentList />} />
           <Route path="/profiles/add-education" element={<AddEducation />} />
