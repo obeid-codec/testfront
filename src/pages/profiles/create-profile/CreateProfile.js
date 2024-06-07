@@ -1,8 +1,34 @@
-import React, { Fragment } from 'react'
+import React, { useState } from 'react';
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import * as profileActions from '../../../redux/profiles/profile.actions';
 
-const CreateProfile = () => {
+let CreateProfile = () => {
+    let dispatch = useDispatch();
+    let navigate = useNavigate();
+
+    let [profile, setProfile] = useState({
+        youtube: '',
+        facebook: '',
+        twitter: '',
+        linkedin: '',
+        instagram: ''
+    });
+
+    let updateInput = (e) => {
+        setProfile({
+            ...profile,
+            [e.target.name]: e.target.value
+        });
+    };
+
+    let submitCreateProfile = (e) => {
+        e.preventDefault();
+        dispatch(profileActions.createProfile(profile, navigate));
+    };
+
     return (
-        <Fragment>
+        <React.Fragment>
             <section className="p-3">
                 <div className="container">
                     <div className="row">
@@ -20,111 +46,59 @@ const CreateProfile = () => {
                 <div className="container">
                     <div className="row">
                         <div className="col-md-8">
-                            <form >
-                                <div className="form-group">
-                                    <input
-                                        required
-                                        name="company"
+                            <form onSubmit={submitCreateProfile}>
 
-                                        type="text" className="form-control" placeholder="Company" />
-                                </div>
-                                <div className="form-group">
-                                    <input
-                                        required
-                                        name="website"
-
-                                        type="text" className="form-control" placeholder="Website" />
-                                </div>
-                                <div className="form-group">
-                                    <input
-                                        required
-                                        name="location"
-
-                                        type="text" className="form-control" placeholder="Location" />
-                                </div>
-                                <div className="form-group">
-                                    <select
-                                        required
-                                        name="designation"
-
-                                        className="form-control">
-                                        <option value="">Select Designation</option>
-                                        <option value="Junior Developer">Junior Developer</option>
-                                        <option value="Senior Developer">Senior Developer</option>
-                                        <option value="Tech Lead">Tech Lead</option>
-                                        <option value="Junior Manager">Junior Manager</option>
-                                        <option value="Senior Manager">Senior Manager</option>
-                                        <option value="Director">Director</option>
-                                    </select>
-                                </div>
-                                <div className="form-group">
-                                    <input
-                                        required
-                                        name="skills"
-
-                                        type="text" className="form-control" placeholder="Skills" />
-                                </div>
-                                <div className="form-group">
-                                    <textarea
-                                        required
-                                        name="bio"
-                                        rows="3" className="form-control" placeholder="Job Description" />
-                                </div>
-                                <div className="form-group">
-                                    <input
-                                        required
-                                        name="githubUserName"
-
-                                        type="text" className="form-control" placeholder="Github UserName" />
-                                </div>
-                                <hr />
                                 <small>Social Links</small>
                                 <div className="form-group">
                                     <input
                                         required
                                         name="youtube"
-
+                                        value={profile.youtube}
+                                        onChange={updateInput}
                                         type="text" className="form-control" placeholder="YouTube" />
                                 </div>
                                 <div className="form-group">
                                     <input
                                         required
                                         name="twitter"
-
+                                        value={profile.twitter}
+                                        onChange={updateInput}
                                         type="text" className="form-control" placeholder="Twitter" />
                                 </div>
                                 <div className="form-group">
                                     <input
                                         required
                                         name="facebook"
-
+                                        value={profile.facebook}
+                                        onChange={updateInput}
                                         type="text" className="form-control" placeholder="Facebook" />
                                 </div>
                                 <div className="form-group">
                                     <input
                                         required
                                         name="linkedin"
-
+                                        value={profile.linkedin}
+                                        onChange={updateInput}
                                         type="text" className="form-control" placeholder="LinkedIn" />
                                 </div>
                                 <div className="form-group">
                                     <input
                                         required
                                         name="instagram"
-
+                                        value={profile.instagram}
+                                        onChange={updateInput}
                                         type="text" className="form-control" placeholder="Instagram" />
                                 </div>
                                 <div>
                                     <input type="submit" className="btn btn-teal btn-sm" value="Create Profile" />
-                                    <a to="/profiles/dashboard" className="btn bg-light-grey btn-sm">Back</a>
+                                    <Link to="/profiles/dashboard" className="btn bg-light-grey btn-sm">Back</Link>
                                 </div>
                             </form>
                         </div>
                     </div>
                 </div>
             </section>
-        </Fragment>
+        </React.Fragment>
     )
-}
-
-export default CreateProfile
+};
+export default CreateProfile;
