@@ -46,7 +46,7 @@ export const registerUser = (user, navigate) => {
     }
 }
 
-export const loginUser = (user, history) => {
+export const loginUser = (user, navigate) => {
     return async (dispatch) => {
         try {
             dispatch({ type: LOGIN_USER_REQUEST });
@@ -55,7 +55,7 @@ export const loginUser = (user, history) => {
 
             dispatch({ type: LOGIN_USER_SUCCESS, payload: response.data });
             dispatch(alertActions.setAlert('Login is Success', 'success'));
-            history.push('/');
+            navigate('/');
         } catch (error) {
             dispatch({ type: LOGIN_USER_FAILURE, payload: { error: error } });
             dispatch(alertActions.setAlert('Login is Failed', 'danger'));

@@ -1,10 +1,12 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import * as userReducer from '../../../redux/users/users.reducer'
-import { useSelector } from "react-redux";
+import * as userActions from '../../../redux/users/users.actions';
+import { useDispatch, useSelector } from "react-redux";
 
 let Navbar = () => {
-
+    let dispatch = useDispatch();
+    let navigate = useNavigate();
 
     let userInfo = useSelector((state) => {
         return state[userReducer.usersFeatureKey];
@@ -12,7 +14,9 @@ let Navbar = () => {
 
     let { user, isAuthenticated } = userInfo;
 
-
+    // let clickLogOut = () => {
+    //     dispatch(userActions.logoutUser(navigate));
+    // };
 
     let beforeLogin = <React.Fragment>
         <li className="nav-item">
@@ -44,7 +48,10 @@ let Navbar = () => {
                 </li>
             </React.Fragment>
         }
-
+        {/* <li className="nav-item">
+            <Link to="/" className="nav-link" onClick={clickLogOut}>
+                LogOut</Link>
+        </li> */}
     </React.Fragment>
 
     return (
