@@ -15,13 +15,17 @@ import AddCourse from './pages/profiles/add-course/AddCourse';
 import PostDetails from './pages/posts/post-details/PostDetails';
 import PostList from './pages/posts/post-list/PostList';
 import EventList from './pages/events/event-list/EventList';
+import Alert from './layout/misc/alert/Alert';
+import Navbar from './layout/misc/navbar/Navbar';
 
 function App() {
   return (
     <Fragment>
       <Router>
+        <Navbar />
+        <Alert />
         <Routes>
-          <Route exact path="/" element={<Home />} />
+          <Route path="/" element={<Home />} />
           <Route path="/login" element={<UserLogin />} />
           <Route path="/register" element={<UserRegister />} />
           <Route path="/student/details" element={<StudentDetails />} />

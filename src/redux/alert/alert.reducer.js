@@ -1,25 +1,24 @@
-import * as alertAction from './alert.action';
+import * as alertActions from './alert.actions';
 
 export const alertFeatureKey = 'alert-info';
 
-export const initialState = {
+let initialState = {
     messages: []
 };
 
 export const reducer = (state = initialState, action) => {
     let { type, payload } = action;
     switch (type) {
-        case alertAction.SET_ALERT:
+        case alertActions.SET_ALERT:
             return {
                 ...state,
                 messages: [...state.messages, payload]
-            }
-        case alertAction.REMOVE_ALERT:
+            };
+        case alertActions.REMOVE_ALERT:
             return {
                 ...state,
-                messages: [...state.messages.filter(message => message.id !== payload.id)]
-            }
-        default:
-            return state;
+                messages: [...state.messages.filter(msg => msg.id !== payload.id)]
+            };
+        default: return state;
     }
-}
+};

@@ -1,3 +1,10 @@
 npm install redux react-redux redux-thunk redux-logger @redux-devtools/extension
 
 npm install uuid axios react-router-dom 
+
+
+
+
+todo 
+user edit
+user logout
