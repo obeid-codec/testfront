@@ -4,6 +4,7 @@ import * as alertActions from '../alert/alert.actions';
 import * as userUtil from '../../util/userUtil';
 import * as authUtil from '../../util/authToken';
 
+import * as profileActions from '../profiles/profile.actions';
 
 
 export const REGISTER_USER_REQUEST = 'REGISTER_USER_REQUEST';
@@ -106,3 +107,19 @@ export const editUserInfoRequest = (user, history) => {
         }
     }
 }
+
+
+
+export const logoutUser = (navigate) => {
+    return async (dispatch) => {
+        try {
+            dispatch({ type: LOGOUT_USER });
+            dispatch(profileActions.clearProfile());
+            navigate('/');
+        }
+        catch (error) {
+            console.error(error);
+            dispatch({ type: LOGIN_USER_FAILURE });
+        }
+    };
+};

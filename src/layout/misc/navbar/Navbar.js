@@ -14,9 +14,9 @@ let Navbar = () => {
 
     let { user, isAuthenticated } = userInfo;
 
-    // let clickLogOut = () => {
-    //     dispatch(userActions.logoutUser(navigate));
-    // };
+    let clickLogOut = () => {
+        dispatch(userActions.logoutUser(navigate));
+    };
 
     let beforeLogin = <React.Fragment>
         <li className="nav-item">
@@ -48,10 +48,10 @@ let Navbar = () => {
                 </li>
             </React.Fragment>
         }
-        {/* <li className="nav-item">
+        <li className="nav-item">
             <Link to="/" className="nav-link" onClick={clickLogOut}>
                 LogOut</Link>
-        </li> */}
+        </li>
     </React.Fragment>
 
     return (

@@ -24,10 +24,10 @@ export const reducer = (state = initialState, action) => {
         case userActions.LOGIN_USER_REQUEST:
             return { ...state, loading: true };
         case userActions.LOGIN_USER_SUCCESS:
-            localStorage.setItem('react-social-token', payload.token);
+            localStorage.setItem('uniconnect-auth-token', payload.token);
             return { ...state, loading: false, token: payload.token, isAuthenticated: true };
         case userActions.LOGIN_USER_FAILURE:
-            localStorage.removeItem('react-social-token');
+            localStorage.removeItem('uniconnect-auth-token');
             return { ...state, loading: false, user: {}, token: '', isAuthenticated: false, errorMessage: payload.error.message };
         //get user info
         case userActions.GET_USER_INFO_REQUEST:
@@ -43,6 +43,12 @@ export const reducer = (state = initialState, action) => {
             return { ...state, loading: false, user: payload.user };
         case userActions.EDIT_USER_INFO_FAILURE:
             return { ...state, loading: false, errorMessage: payload.error.message };
+        // Logout User
+        case userActions.LOGOUT_USER:
+            localStorage.removeItem('uniconnect-auth-token');
+            return { ...state, user: {}, token: '', isAuthenticated: false };
+        case userActions.LOGOUT_USER_FAILURE:
+            return { ...state };
         default:
             return state;
     }
