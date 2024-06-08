@@ -59,7 +59,7 @@ const Dashboard = () => {
                         <div className="container">
                             <div className="row">
                                 <div className="col">
-                                    <Link to="/profiles/edit-profile" className="btn btn-light text-teal btn-sm">
+                                    <Link to="/profiles/edit" className="btn btn-light text-teal btn-sm">
                                         <i className="fa fa-user-cog" /> Edit Profile
                                     </Link>
                                     <Link to="/profiles/add-experience" className="btn btn-light text-teal btn-sm">
