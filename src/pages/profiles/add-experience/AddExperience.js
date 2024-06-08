@@ -1,8 +1,45 @@
-import React, { Fragment } from 'react'
+import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { useDispatch } from "react-redux";
+import * as profileActions from '../../../redux/profiles/profile.actions';
 
-const AddExperience = () => {
+let AddExperience = () => {
+    let dispatch = useDispatch();
+    let navigate = useNavigate();
+
+    let [experience, setExperience] = useState({
+        title: '',
+        company: '',
+        location: '',
+        from: '',
+        to: '',
+        current: '',
+        description: ''
+    });
+
+    let updateInput = (e) => {
+        if (e.target.type === 'checkbox') {
+            setExperience({
+                ...experience,
+                [e.target.name]: e.target.checked
+            });
+        }
+        else {
+            setExperience({
+                ...experience,
+                [e.target.name]: e.target.value
+            });
+        }
+    };
+
+    let submitAddExperience = (e) => {
+        e.preventDefault();
+        dispatch(profileActions.addExperience(experience, navigate));
+    };
+
     return (
-        <Fragment>
+        <React.Fragment>
+            {/*<pre>{JSON.stringify(experience)}</pre>*/}
             <section className="p-3">
                 <div className="container">
                     <div className="row">
@@ -20,7 +57,7 @@ const AddExperience = () => {
                 <div className="container">
                     <div className="row">
                         <div className="col-md-8">
-                            <form >
+                            <form onSubmit={submitAddExperience}>
                                 <div className="input-group mb-3">
                                     <div className="input-group-prepend">
                                         <span className="input-group-text bg-light-grey text-teal">Title</span>
@@ -28,6 +65,8 @@ const AddExperience = () => {
                                     <input
                                         required
                                         name="title"
+                                        value={experience.title}
+                                        onChange={updateInput}
                                         type="text" className="form-control" placeholder="Title" />
                                 </div>
                                 <div className="input-group mb-3">
@@ -36,6 +75,9 @@ const AddExperience = () => {
                                     </div>
                                     <input
                                         required
+                                        name="company"
+                                        value={experience.company}
+                                        onChange={updateInput}
                                         type="text" className="form-control" placeholder="Company" />
                                 </div>
                                 <div className="input-group mb-3">
@@ -45,7 +87,8 @@ const AddExperience = () => {
                                     <input
                                         required
                                         name="location"
-
+                                        value={experience.location}
+                                        onChange={updateInput}
                                         type="text" className="form-control" placeholder="Location" />
                                 </div>
                                 <div className="input-group mb-3">
@@ -55,11 +98,15 @@ const AddExperience = () => {
                                     <input
                                         required
                                         name="from"
+                                        value={experience.from}
+                                        onChange={updateInput}
                                         type="date" className="form-control" />
                                 </div>
                                 <div className="form-check mb-3">
                                     <input
                                         name="current"
+                                        value={experience.current}
+                                        onChange={updateInput}
                                         className="form-check-input" type="checkbox" id="defaultCheck1" />
                                     <label className="form-check-label" htmlFor="defaultCheck1">
                                         Current
@@ -72,8 +119,10 @@ const AddExperience = () => {
                                     <input
                                         required
                                         name="to"
+                                        value={experience.to}
+                                        onChange={updateInput}
                                         type="date" className="form-control"
-                                    />
+                                        disabled={experience.current} />
                                 </div>
                                 <div className="input-group mb-3">
                                     <div className="input-group-prepend">
@@ -82,19 +131,20 @@ const AddExperience = () => {
                                     <textarea
                                         required
                                         name="description"
+                                        value={experience.description}
+                                        onChange={updateInput}
                                         rows="3" className="form-control" placeholder="Description" />
                                 </div>
                                 <div>
                                     <input type="submit" value="add experience" className="btn btn-teal btn-sm" />
-                                    <a to="/profiles/dashboard" className="btn bg-light-grey btn-sm">Back</a>
+                                    <Link to="/profiles/dashboard" className="btn bg-light-grey btn-sm">Back</Link>
                                 </div>
                             </form>
                         </div>
                     </div>
                 </div>
             </section>
-        </Fragment>
+        </React.Fragment>
     )
-}
-
-export default AddExperience
+};
+export default AddExperience;
