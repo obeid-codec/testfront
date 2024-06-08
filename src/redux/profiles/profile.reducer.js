@@ -4,7 +4,7 @@ export const profileFeatureKey = 'profile-info';
 
 let initialState = {
     loading: false,
-    profile: '',
+    profile: {},
     errorMessage: ''
 }
 
