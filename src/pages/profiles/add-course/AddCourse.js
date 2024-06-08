@@ -1,8 +1,40 @@
-import React, { Fragment } from 'react'
+import React, { useState } from 'react';
+import { useDispatch } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+import * as profileActions from "../../../redux/profiles/profile.actions";
 
-const AddCourse = () => {
+let AddCourse = () => {
+    let dispatch = useDispatch();
+    let navigate = useNavigate();
+
+    let [courses, setCourses] = useState({
+        course: '',
+        semester: '',
+        description: ''
+    });
+
+    let updateInput = (e) => {
+        if (e.target.type === 'checkbox') {
+            setCourses({
+                ...courses,
+                [e.target.name]: e.target.checked
+            });
+        }
+        else {
+            setCourses({
+                ...courses,
+                [e.target.name]: e.target.value
+            });
+        }
+    };
+
+    let submitAddCourses = (e) => {
+        e.preventDefault();
+        dispatch(profileActions.addCourse(courses, navigate));
+    };
+
     return (
-        <Fragment>
+        <React.Fragment>
             <section className="p-3">
                 <div className="container">
                     <div className="row">
@@ -20,7 +52,7 @@ const AddCourse = () => {
                 <div className="container">
                     <div className="row">
                         <div className="col-md-8">
-                            <form >
+                            <form onSubmit={submitAddCourses}>
                                 <div className="input-group mb-3">
                                     <div className="input-group-prepend">
                                         <span className="input-group-text bg-light-grey text-teal">Course</span>
@@ -28,6 +60,8 @@ const AddCourse = () => {
                                     <input
                                         required
                                         name="course"
+                                        value={courses.course}
+                                        onChange={updateInput}
                                         type="text" className="form-control" placeholder="Course" />
                                 </div>
                                 <div className="input-group mb-3">
@@ -37,8 +71,11 @@ const AddCourse = () => {
                                     <input
                                         required
                                         name="semester"
-                                        type="text" className="form-control" placeholder="Semester" />
+                                        value={courses.semester}
+                                        onChange={updateInput}
+                                        type="text" className="form-control" placeholder="semester" />
                                 </div>
+
                                 <div className="input-group mb-3">
                                     <div className="input-group-prepend">
                                         <span className="input-group-text bg-light-grey text-teal">Description</span>
@@ -46,20 +83,20 @@ const AddCourse = () => {
                                     <textarea
                                         required
                                         name="description"
-
+                                        value={courses.description}
+                                        onChange={updateInput}
                                         rows="3" className="form-control" placeholder="Description" />
                                 </div>
                                 <div>
-                                    <input type="submit" value="add Course" className="btn btn-teal btn-sm" />
-                                    <a to="/profiles/dashboard" className="btn bg-light-grey btn-sm">Back</a>
+                                    <input type="submit" value="add education" className="btn btn-teal btn-sm" />
+                                    <Link to="/profiles/dashboard" className="btn bg-light-grey btn-sm">Back</Link>
                                 </div>
                             </form>
                         </div>
                     </div>
                 </div>
             </section>
-        </Fragment>
+        </React.Fragment>
     )
-}
-
-export default AddCourse
+};
+export default AddCourse;

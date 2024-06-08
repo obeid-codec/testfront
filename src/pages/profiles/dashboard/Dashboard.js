@@ -53,7 +53,7 @@ const Dashboard = () => {
                     </section>
                 </React.Fragment>
             )}
-            {profile ? (
+            {profile && Object.keys(profile).length > 0 ? (
                 <React.Fragment>
                     <section>
                         <div className="container">
@@ -171,7 +171,7 @@ const Dashboard = () => {
                     </section>
                     {/* Course Details */}
                     <section>
-                        {profile.course?.length > 0 && (
+                        {profile.courses?.length > 0 && (
                             <div className="container">
                                 <div className="row">
                                     <div className="col">
@@ -190,7 +190,7 @@ const Dashboard = () => {
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                {profile.course.map((crs) => (
+                                                {profile.courses.map((crs) => (
                                                     <tr key={crs._id}>
                                                         <td>{crs.course}</td>
                                                         <td>{crs.semester}</td>
