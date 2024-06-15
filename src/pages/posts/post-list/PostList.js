@@ -81,8 +81,8 @@ const PostList = () => {
                                         </div>
                                         <textarea
                                             required
-                                            name="text"
-                                            value={localPost.text}
+                                            name="content"
+                                            value={localPost.content}
                                             onChange={updateInput}
                                             rows="3" className="form-control" placeholder="Whats on your mind.." />
                                     </div>
