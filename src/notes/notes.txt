@@ -8,3 +8,7 @@ npm install uuid axios react-router-dom
 todo 
 user edit
 user logout
+
+
+
+see in backend if we delete group . it will delete all posts
