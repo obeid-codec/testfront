@@ -15,6 +15,14 @@ export const GET_GROUP_SUCCESS = 'GET_GROUP_SUCCESS';
 export const GET_GROUP_FAILURE = 'GET_GROUP_FAILURE';
 
 
+
+export const GET_SPECIFIC_GROUP_REQUEST = 'GET_SPECIFIC_GROUP_REQUEST';
+export const GET_SPECIFIC_GROUP_SUCCESS = 'GET_SPECIFIC_GROUP_SUCCESS';
+export const GET_SPECIFIC_GROUP_FAILURE = 'GET_SPECIFIC_GROUP_FAILURE';
+
+
+
+
 export const CREATE_GROUP_REQUEST = 'CREATE_GROUP_REQUEST';
 export const CREATE_GROUP_SUCCESS = 'CREATE_GROUP_SUCCESS';
 export const CREATE_GROUP_FAILURE = 'CREATE_GROUP_FAILURE';
@@ -49,7 +57,7 @@ export const getGroups = () => {
                 let token = userUtil.getTokens();
                 authUtil.setAuthToken(token);
                 dispatch({ type: GET_GROUPS_REQUEST });
-                let dataUrl = 'http://localhost:3000//studygroups/';
+                let dataUrl = 'http://localhost:3000/studygroups/';
                 let response = await Axios.get(dataUrl);
                 dispatch({ type: GET_GROUPS_SUCCESS, payload: response.data });
             }
@@ -71,7 +79,7 @@ export const getGroup = () => {
                 let token = userUtil.getTokens();
                 authUtil.setAuthToken(token);
                 dispatch({ type: GET_GROUP_REQUEST });
-                let dataUrl = `http://localhost:3000//studygroups/joined`;
+                let dataUrl = `http://localhost:3000/studygroups/joined`;
                 let response = await Axios.get(dataUrl);
                 dispatch({ type: GET_GROUP_SUCCESS, payload: response.data });
             }
@@ -79,6 +87,27 @@ export const getGroup = () => {
         catch (error) {
             console.error(error);
             dispatch({ type: GET_GROUP_FAILURE, payload: { error: error } });
+        }
+    };
+};
+
+
+
+export const getSpecificGroup = (groupId) => {
+    return async (dispatch) => {
+        try {
+            if (userUtil.isLoggedIn()) {
+                let token = userUtil.getTokens();
+                authUtil.setAuthToken(token);
+                dispatch({ type: GET_SPECIFIC_GROUP_REQUEST });
+                let dataUrl = `http://localhost:3000/studygroups/${groupId}`;
+                let response = await Axios.get(dataUrl);
+                dispatch({ type: GET_SPECIFIC_GROUP_SUCCESS, payload: response.data });
+            }
+        }
+        catch (error) {
+            console.error(error);
+            dispatch({ type: GET_SPECIFIC_GROUP_FAILURE, payload: { error: error } });
         }
     };
 };
@@ -97,7 +126,7 @@ export const createGroup = (group, navigate) => {
                 let response = await Axios.post(dataUrl, group);
                 dispatch({ type: CREATE_GROUP_SUCCESS, payload: response.data });
                 dispatch(alertActions.setAlert('Group is Created', 'success'));
-                navigate('/groups/dashboard');
+                navigate('/groups');
             }
         }
         catch (error) {
@@ -119,6 +148,7 @@ export const deleteGroup = (groupId) => {
                 let response = await Axios.delete(dataUrl);
                 dispatch({ type: DELETE_GROUP_SUCCESS, payload: response.data });
                 dispatch(alertActions.setAlert('Group is Deleted', 'success'));
+
             }
         }
         catch (error) {
@@ -137,11 +167,11 @@ export const updateGroup = (groupId, group, navigate) => {
                 let token = userUtil.getTokens();
                 authUtil.setAuthToken(token);
                 dispatch({ type: UPDATE_GROUP_REQUEST });
-                let dataUrl = `http://localhost:3000/studygroups/delete-study-group/${groupId}`;
+                let dataUrl = `http://localhost:3000/studygroups/update-study-group/${groupId}`;
                 let response = await Axios.put(dataUrl, group);
                 dispatch({ type: UPDATE_GROUP_SUCCESS, payload: response.data });
                 dispatch(alertActions.setAlert('group is Updated', 'success'));
-                navigate('/groups/dashboard');
+                navigate('/groups');
             }
         }
         catch (error) {

@@ -8,7 +8,7 @@ import Spinner from '../../../layout/misc/spinner/Spinner';
 const PostList = () => {
 
 
-    let [localPost, setLocalPost] = useState({
+    const [localPost, setLocalPost] = useState({
         content: '',
         image: '',
         studyGroupID: ''
@@ -19,7 +19,7 @@ const PostList = () => {
 
     const { user } = userInfo || {};
 
-    let postInfo = useSelector((state) => {
+    const postInfo = useSelector((state) => {
         return state[postReducer.postFeatureKey];
     });
 

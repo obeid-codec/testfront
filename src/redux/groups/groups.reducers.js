@@ -15,6 +15,8 @@ let initialState = {
 export const reducer = (state = initialState, action) => {
     let { type, payload } = action;
     switch (type) {
+        //GET all groups 
+
         case groupActions.GET_GROUPS_REQUEST:
             return {
                 ...state,
@@ -32,6 +34,8 @@ export const reducer = (state = initialState, action) => {
                 loading: false,
                 errorMessage: payload.error
             }
+        //GET joined groups 
+
         case groupActions.GET_GROUP_REQUEST:
             return {
                 ...state,
@@ -41,7 +45,7 @@ export const reducer = (state = initialState, action) => {
             return {
                 ...state,
                 loading: false,
-                selectedGroup: payload.group
+                groups: payload.groups
             }
         case groupActions.GET_GROUP_FAILURE:
             return {
@@ -49,8 +53,25 @@ export const reducer = (state = initialState, action) => {
                 loading: false,
                 errorMessage: payload.error
             }
+        //GET a specific group 
 
-
+        case groupActions.GET_SPECIFIC_GROUP_REQUEST:
+            return {
+                ...state,
+                loading: true
+            }
+        case groupActions.GET_SPECIFIC_GROUP_SUCCESS:
+            return {
+                ...state,
+                loading: false,
+                selectedGroup: payload.group
+            }
+        case groupActions.GET_SPECIFIC_GROUP_FAILURE:
+            return {
+                ...state,
+                loading: false,
+                errorMessage: payload.error
+            }
         //Create a group
         case groupActions.CREATE_GROUP_REQUEST:
             return {

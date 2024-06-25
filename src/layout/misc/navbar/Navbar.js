@@ -34,13 +34,18 @@ let Navbar = () => {
             Object.keys(user).length > 0 &&
             <React.Fragment>
                 <li className="nav-item">
-                    <Link to="/posts/list" className="nav-link">
+                    <Link to="/posts" className="nav-link">
                         <i className="fa fa-list" /> Posts</Link>
+                </li>
+                <li className="nav-item">
+                    <Link to="/groups" className="nav-link">
+                        <i className="fa fa-list" />Groups</Link>
                 </li>
                 <li className="nav-item">
                     <Link to="/profiles/dashboard" className="nav-link">
                         <i className="fa fa-sitemap" /> Dashboard</Link>
                 </li>
+
                 <li className="nav-item">
                     <Link to="/" className="nav-link">
                         <img src={user.avatar} alt="" width="25" height="25" className="rounded-circle" />

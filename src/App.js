@@ -19,6 +19,8 @@ import EventList from './pages/events/event-list/EventList';
 import Alert from './layout/misc/alert/Alert';
 import Navbar from './layout/misc/navbar/Navbar';
 import { useDispatch } from 'react-redux';
+import GroupList from './pages/groups/group-list/GroupList';
+import GroupEdit from './pages/groups/group-list/GroupEdit';
 
 function App() {
   const dispatch = useDispatch();
@@ -47,6 +49,8 @@ function App() {
           <Route path="/profiles/edit" element={<EditProfile />} />
           <Route path="/posts/:postId" element={<PostDetails />} />
           <Route path="/posts" element={<PostList />} />
+          <Route path="/groups" element={<GroupList />} />
+          <Route path="/groups/edit/:groupId" element={<GroupEdit />} />
           <Route path="/events/list" element={<EventList />} />
           <Route path="*" element={<div>404 Not Found</div>} />
         </Routes>
