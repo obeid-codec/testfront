@@ -221,7 +221,7 @@ export const createComment = (comment, postId) => {
                 authUtil.setAuthToken(token);
                 dispatch({ type: CREATE_COMMENT_REQUEST });
                 let dataUrl = `http://localhost:3000/posts/comment/${postId}`;
-                let response = await Axios.post(dataUrl, comment);
+                let response = await Axios.put(dataUrl, comment);
                 dispatch({ type: CREATE_COMMENT_SUCCESS, payload: response.data });
             }
         }

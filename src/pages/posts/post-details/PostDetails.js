@@ -1,154 +1,142 @@
-import React, { Fragment, useEffect, useState } from 'react'
+import React, { Fragment, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useParams } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom';
 import * as postReducer from '../../../redux/posts/post.reducer';
 import * as postActions from '../../../redux/posts/post.actions';
 import * as userReducer from '../../../redux/users/users.reducer';
 import Spinner from '../../../layout/misc/spinner/Spinner';
+import './PostDetails.css'; // Import the custom CSS file
 
 const PostDetails = () => {
-
-
     const [comment, setComment] = useState({
-        text: ''
+        content: ''
     });
 
-    let dispatch = useDispatch();
-    const postId = useParams;
+    const dispatch = useDispatch();
+    const { postId } = useParams();
 
-    let postInfo = useSelector((state) => {
-        return state[postReducer.postFeatureKey];
-    })
+    const postInfo = useSelector((state) => state[postReducer.postFeatureKey]);
+    const userInfo = useSelector((state) => state[userReducer.usersFeatureKey]);
+    const { user } = userInfo;
 
-    let userInfo = useSelector((state) => {
-        return state[userReducer.usersFeatureKey];
-    })
-
-    let { user } = userInfo;
-
-    let { loading, selectedPost } = postInfo;
+    const { loading, selectedPost } = postInfo;
 
     useEffect(() => {
-        dispatch(postActions.getPost(postId))
-    }, [postId])
+        dispatch(postActions.getPost(postId));
+    }, [dispatch, postId]);
 
     const submitCreateComment = (e) => {
         e.preventDefault();
         dispatch(postActions.createComment(comment, postId));
         setComment({
-            text: ''
-        })
-    }
+            content: ''
+        });
+    };
 
     const clickDeleteComment = (commentId) => {
-        dispatch(postActions.deleteComment(postId, commentId))
-    }
-
+        dispatch(postActions.deleteComment(postId, commentId));
+    };
 
     return (
-        <React.Fragment>
-            {
-                loading ? <Spinner /> :
-                    <React.Fragment>
+        <Fragment>
+            {loading ? <Spinner /> : (
+                <Fragment>
+                    <section className="p-3">
+                        <div className="container">
+                            <div className="row mb-3">
+                                <div className="col">
+                                    <Link to="/posts" className="btn btn-light btn-sm">Back</Link>
+                                </div>
+                            </div>
+                            <div className="row">
+                                <div className="col">
+                                    {selectedPost && Object.keys(selectedPost).length > 0 && (
+                                        <div className="card mb-4">
+                                            <div className="card-body">
+                                                <div className="row">
+                                                    <div className="col-md-2 d-flex flex-column align-items-center">
+                                                        <img src={selectedPost.avatar} alt="" className="rounded-circle mb-2" width="60" height="60" />
+                                                        <small className="text-muted">{selectedPost.name}</small>
+                                                    </div>
+                                                    <div className="col-md-10">
+                                                        <div className="col-md-6">
+                                                            <img src={selectedPost.image} alt="" className="img-fluid d-block m-auto" />
+                                                        </div>
+                                                        <p>{selectedPost.text}</p>
+                                                        <small className="text-muted">{new Date(selectedPost.createdAt).toLocaleString()}</small>
+                                                    </div>
+                                                </div>
+                                                <div className="row mt-3">
+                                                    <div className="col">
+                                                        <form onSubmit={submitCreateComment}>
+                                                            <div className="input-group mb-3">
+                                                                <span className="input-group-text">
+                                                                    <img src={user.avatar} alt="" width="40" height="40" className="rounded-circle" />
+                                                                </span>
+                                                                <textarea
+                                                                    required
+                                                                    name="content"
+                                                                    value={comment.content}
+                                                                    onChange={(e) => setComment({ content: e.target.value })}
+                                                                    rows="2"
+                                                                    className="form-control"
+                                                                    placeholder="What's on your mind..."
+                                                                />
+                                                            </div>
+                                                            <div>
+                                                                <button type="submit" className="btn btn-teal btn-sm">Comment</button>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    )}
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    {selectedPost && selectedPost.comments && selectedPost.comments.length > 0 && (
                         <section className="p-3">
                             <div className="container">
                                 <div className="row">
                                     <div className="col">
-                                        <Link to="/posts/list" className="btn bg-light-grey btn-sm">back</Link>
-                                    </div>
-                                </div>
-                                <div className="row">
-                                    <div className="col">
-                                        {
-                                            Object.keys(selectedPost).length > 0 &&
-                                            <div className="card">
-                                                <div className="card-body bg-light-grey">
-                                                    <div className="row">
-                                                        <div className="col-md-2 text-center">
-                                                            <img src={selectedPost.avatar} alt="" className="rounded-circle" width="60" height="60" /><br />
-                                                            <small>{selectedPost.name}</small>
+                                        {selectedPost.comments.map((comment) => (
+                                            <div className="card mb-3" key={comment._id}>
+                                                <div className="card-body">
+                                                    <div className="row align-items-center">
+                                                        <div className="col-md-2 d-flex flex-column align-items-center">
+                                                            <img src={comment.avatar} alt="" className="rounded-circle mb-2" width="50" height="50" />
+                                                            <small className="text-muted">{comment.name}</small>
                                                         </div>
-                                                        <div className="col-md-8">
-                                                            <div className="row">
-                                                                <div className="col-md-6">
-                                                                    <img src={selectedPost.image} alt="" className="img-fluid d-block m-auto" />
-                                                                </div>
+                                                        <div className="col-md-9">
+                                                            <p className="mb-1">{comment.content}</p>
+                                                            <small className="text-muted">{new Date(comment.createdAt).toLocaleString()}</small>
+                                                        </div>
+                                                        {comment.userID === user._id && (
+                                                            <div className="col-md-1 text-end">
+                                                                <button
+                                                                    className="btn btn-outline-danger btn-sm"
+                                                                    onClick={() => clickDeleteComment(comment._id)}
+                                                                >
+                                                                    <i className="fa fa-times-circle" /> Delete
+                                                                </button>
                                                             </div>
-                                                            <p>{selectedPost.text}</p>
-                                                            <small>{selectedPost.createdAt}</small>
-                                                        </div>
-                                                    </div>
-                                                    <div className="row mt-3">
-                                                        <div className="col">
-                                                            <form onSubmit={submitCreateComment}>
-                                                                <div className="input-group mb-1">
-                                                                    <div className="input-group-prepend">
-                                                                        <span className="input-group-text" id="basic-addon1">
-                                                                            <img src={user.avatar} alt="" width="50" height="50" className="rounded-circle" />
-                                                                        </span>
-                                                                    </div>
-                                                                    <textarea
-                                                                        required
-                                                                        name="text"
-                                                                        value={comment.text}
-                                                                        onChange={e => setComment({ text: e.target.value })}
-                                                                        rows="3" className="form-control" placeholder="Whats on your mind.." />
-                                                                </div>
-                                                                <div>
-                                                                    <input type="submit" className="btn btn-teal btn-sm" value="Comment" />
-                                                                </div>
-                                                            </form>
-                                                        </div>
+                                                        )}
                                                     </div>
                                                 </div>
                                             </div>
-                                        }
+                                        ))}
                                     </div>
                                 </div>
                             </div>
                         </section>
+                    )}
+                </Fragment>
+            )}
+        </Fragment>
+    );
+};
 
-                        <section>
-                            {Object.keys(selectedPost).length > 0 &&
-                                selectedPost.comments.length > 0 &&
-                                <div className="container">
-                                    <div className="row">
-                                        <div className="col">
-                                            {
-                                                selectedPost.comments.map(comment => {
-                                                    return (
-                                                        <div className="card mt-3" key={comment._id}>
-                                                            <div className="card-body">
-                                                                <div className="row">
-                                                                    <div className="col-md-2">
-                                                                        <img src={comment.avatar} alt="" className="rounded-circle" width="50" height="50" />
-                                                                        <br />
-                                                                        <small>{comment.name}</small>
-                                                                    </div>
-                                                                    <div className="col-md-8">
-                                                                        <p>{comment.text}</p>
-                                                                        {
-                                                                            comment.user === user._id ?
-                                                                                <button className="btn rgba-amber-light btn-sm" onClick={clickDeleteComment.bind(this, comment._id)}>
-                                                                                    <i className="fa fa-times-circle" />
-                                                                                </button> : null
-                                                                        }
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    )
-                                                })
-                                            }
-                                        </div>
-                                    </div>
-                                </div>
-                            }
-                        </section>
-                    </React.Fragment>
-            }
-        </React.Fragment>
-    )
-}
-
-export default PostDetails
+export default PostDetails;
