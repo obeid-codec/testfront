@@ -51,6 +51,7 @@ function App() {
           <Route path="/posts" element={<PostList />} />
           <Route path="/groups" element={<GroupList />} />
           <Route path="/groups/edit/:groupId" element={<GroupEdit />} />
+          <Route path="/groups/:groupId?" element={<PostList />} />
           <Route path="/events/list" element={<EventList />} />
           <Route path="*" element={<div>404 Not Found</div>} />
         </Routes>

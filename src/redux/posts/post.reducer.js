@@ -97,7 +97,7 @@ export const reducer = (state = initialState, action) => {
             return {
                 ...state,
                 loading: false,
-                selectedPost: payload.post
+                posts: payload.posts
             };
         case postActions.GET_POST_GROUP_FAILURE:
             return {

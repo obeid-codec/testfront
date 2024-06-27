@@ -1,6 +1,6 @@
 import React, { Fragment, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import * as postReducer from '../../../redux/posts/post.reducer';
 import * as postActions from '../../../redux/posts/post.actions';
 import * as userReducer from '../../../redux/users/users.reducer';
@@ -16,6 +16,8 @@ const PostList = () => {
         studyGroupID: ''
     });
 
+    const { groupId } = useParams();
+
     const dispatch = useDispatch();
     const userInfo = useSelector((state) => state[userReducer.usersFeatureKey]);
     const { user } = userInfo || {};
@@ -27,8 +29,12 @@ const PostList = () => {
     const { groups } = groupInfo;
 
     useEffect(() => {
-        dispatch(postActions.getAllPosts());
-    }, [dispatch]);
+        if (groupId) {
+            dispatch(postActions.getPostsbyGroup(groupId));
+        } else {
+            dispatch(postActions.getAllPosts());
+        }
+    }, [dispatch, groupId]);
 
     useEffect(() => {
         dispatch(groupActions.getGroups());
@@ -49,6 +55,13 @@ const PostList = () => {
             image: '',
             studyGroupID: ''
         });
+
+        // Fetch posts again after creating a new post
+        if (groupId) {
+            dispatch(postActions.getPostsbyGroup(groupId));
+        } else {
+            dispatch(postActions.getAllPosts());
+        }
     };
 
     const clickDeletePost = (postId) => {
@@ -129,7 +142,7 @@ const PostList = () => {
             <section>
                 {loading ? <Spinner /> : (
                     <Fragment>
-                        {posts.length > 0 && (
+                        {posts.length > 0 ? (
                             <div className="container">
                                 <div className="row">
                                     <div className="col">
@@ -173,6 +186,14 @@ const PostList = () => {
                                                 </div>
                                             </div>
                                         ))}
+                                    </div>
+                                </div>
+                            </div>
+                        ) : (
+                            <div className="container">
+                                <div className="row">
+                                    <div className="col">
+                                        <p>No posts found</p>
                                     </div>
                                 </div>
                             </div>
