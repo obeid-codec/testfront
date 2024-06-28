@@ -138,7 +138,7 @@ export const deleteGroupEvent = (eventId) => {
                 authUtil.setAuthToken(token);
             }
             dispatch({ type: DELETE_EVENT_REQUEST });
-            let dataURL = `http://127.0.0.1:3000/events/group/${eventId}`;
+            let dataURL = `http://127.0.0.1:3000/events/${eventId}`;
             let response = await Axios.delete(dataURL);
             dispatch({ type: DELETE_EVENT_SUCCESS, payload: response.data });
         }

@@ -4,6 +4,8 @@ import * as eventActions from '../../../redux/events/event.actions';
 import * as eventReducer from '../../../redux/events/event.reducer';
 import * as groupReducer from '../../../redux/groups/groups.reducers';
 import * as groupActions from '../../../redux/groups/groups.actions';
+import * as userReducer from '../../../redux/users/users.reducer';
+
 import Spinner from '../../../layout/misc/spinner/Spinner';
 import { Link, useParams } from 'react-router-dom';
 import './EventList.css'; // Import custom CSS for additional styling
@@ -18,6 +20,11 @@ const EventList = () => {
 
     const groupInfo = useSelector((state) => state[groupReducer.groupFeatureKey]);
     const { groups } = groupInfo;
+
+
+    const userInfo = useSelector((state) => state[userReducer.usersFeatureKey]);
+    const { user } = userInfo || {};
+
 
     // useEffect(() => {
     //     dispatch(eventActions.getAllEvents());
@@ -39,6 +46,17 @@ const EventList = () => {
         const group = groups.find(group => group._id === groupId);
         return group ? group.name : 'Unknown Group';
     };
+
+    const clickDeleteEvent = (eventId) => {
+        dispatch(eventActions.deleteGroupEvent(eventId)).then(() => {
+            if (groupId) {
+                dispatch(eventActions.getGroupEvent(groupId));
+            } else {
+                dispatch(eventActions.getAllEvents());
+            }
+        });
+    };
+
 
     return (
         <Fragment>
@@ -72,6 +90,16 @@ const EventList = () => {
                                                     <Link to={`/events/event/${event._id}`} className="btn btn-outline-primary btn-sm mt-3">
                                                         <i className="fas fa-info-circle"></i> More ..
                                                     </Link>
+                                                    {user.isAdmin && (
+                                                        <>
+                                                            <button
+                                                                className="btn btn-outline-danger btn-sm mt-2"
+                                                                onClick={() => clickDeleteEvent(event._id)}
+                                                            >
+                                                                Delete
+                                                            </button>
+                                                        </>
+                                                    )}
                                                 </div>
                                             </div>
                                         </div>
