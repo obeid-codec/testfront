@@ -5,6 +5,7 @@ import * as profileReducer from "./profiles/profile.reducer";
 import * as studentReducer from "./students/student.reducer";
 import * as postReducer from "./posts/post.reducer";
 import * as groupReducer from './groups/groups.reducers'
+import * as eventReducer from './events/event.reducer'
 
 // Combine all reducers into one root reducer
 export const rootReducer = combineReducers({
@@ -13,6 +14,7 @@ export const rootReducer = combineReducers({
     [profileReducer.profileFeatureKey]: profileReducer.reducer,
     [studentReducer.studentFeatureKey]: studentReducer.reducer,
     [postReducer.postFeatureKey]: postReducer.reducer,
-    [groupReducer.groupFeatureKey]: groupReducer.reducer
+    [groupReducer.groupFeatureKey]: groupReducer.reducer,
+    [eventReducer.eventFeatureKey]: eventReducer.reducer
 
 });

@@ -12,3 +12,10 @@ user logout
 
 
 see in backend if we delete group . it will delete all posts
+
+
+change let dispatch to const dispatch
+
+
+event add just for admin
+event delete just for admin

@@ -21,6 +21,8 @@ import Navbar from './layout/misc/navbar/Navbar';
 import { useDispatch } from 'react-redux';
 import GroupList from './pages/groups/group-list/GroupList';
 import GroupEdit from './pages/groups/group-list/GroupEdit';
+import Upload from './pages/events/upload/Upload';
+import EventDetails from './pages/events/event-details/EventDetails';
 
 function App() {
   const dispatch = useDispatch();
@@ -40,6 +42,7 @@ function App() {
           <Route path="/users/login" element={<UserLogin />} />
           <Route path="/users/register" element={<UserRegister />} />
           <Route path="/student/:studentId" element={<StudentDetails />} />
+          <Route path="/students/posts/:studentId?" element={<PostList />} />
           <Route path="/students" element={<StudentList />} />
           <Route path="/profiles/add-education" element={<AddEducation />} />
           <Route path="/profiles/add-experience" element={<AddExperience />} />
@@ -52,7 +55,12 @@ function App() {
           <Route path="/groups" element={<GroupList />} />
           <Route path="/groups/edit/:groupId" element={<GroupEdit />} />
           <Route path="/groups/:groupId?" element={<PostList />} />
-          <Route path="/events/list" element={<EventList />} />
+
+          <Route path="/events/create" element={<Upload />} />
+          <Route path="/events/:groupId?" element={<EventList />} />
+          <Route path="/events/event/:eventId" element={<EventDetails />} />
+
+
           <Route path="*" element={<div>404 Not Found</div>} />
         </Routes>
       </Router>
