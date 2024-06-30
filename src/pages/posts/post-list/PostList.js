@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState } from 'react';
+import React, { Fragment, useEffect, useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
 import * as postReducer from '../../../redux/posts/post.reducer';
@@ -12,9 +12,11 @@ import './PostList.css'; // Import the custom CSS file
 const PostList = () => {
     const [localPost, setLocalPost] = useState({
         content: '',
-        image: '',
+        image: null,
         studyGroupID: ''
     });
+
+    const fileInputRef = useRef(null);
 
     const { groupId } = useParams();
 
@@ -41,20 +43,39 @@ const PostList = () => {
     }, [dispatch]);
 
     const updateInput = (e) => {
+        const { name, value } = e.target;
         setLocalPost({
             ...localPost,
-            [e.target.name]: e.target.value
+            [name]: value
+        });
+    };
+
+    const handleFileChange = (e) => {
+        setLocalPost({
+            ...localPost,
+            image: e.target.files[0]
         });
     };
 
     const submitCreatePost = (e) => {
         e.preventDefault();
-        dispatch(postActions.createPost(localPost));
+        const formData = new FormData();
+        formData.append('content', localPost.content);
+        formData.append('image', localPost.image);
+        formData.append('studyGroupID', localPost.studyGroupID);
+
+        dispatch(postActions.createPost(formData));
+
+        // Reset the form and file input
         setLocalPost({
             content: '',
-            image: '',
+            image: null,
             studyGroupID: ''
         });
+
+        if (fileInputRef.current) {
+            fileInputRef.current.value = '';
+        }
 
         // Fetch posts again after creating a new post
         if (groupId) {
@@ -65,7 +86,13 @@ const PostList = () => {
     };
 
     const clickDeletePost = (postId) => {
-        dispatch(postActions.deletePost(postId));
+        dispatch(postActions.deletePost(postId)).then(() => {
+            if (groupId) {
+                dispatch(postActions.getPostsbyGroup(groupId));
+            } else {
+                dispatch(postActions.getAllPosts());
+            }
+        });
     };
 
     const clickLikePost = (postId) => {
@@ -110,11 +137,11 @@ const PostList = () => {
                                         <input
                                             required
                                             name="image"
-                                            value={localPost.image}
-                                            onChange={updateInput}
-                                            type="text"
+                                            ref={fileInputRef}
+                                            onChange={handleFileChange}
+                                            type="file"
                                             className="form-control"
-                                            placeholder="Image URL"
+                                            placeholder="Image"
                                         />
                                     </div>
                                     <div className="mb-3">
@@ -156,8 +183,8 @@ const PostList = () => {
                                                         </div>
                                                         <div className="col-md-8">
                                                             <div className="row">
-                                                                <div className="col-md-6">
-                                                                    <img src={post.image} alt="" className="img-fluid d-block m-auto" />
+                                                                <div className="col-md-10">
+                                                                    <img src={`http://127.0.0.1:3000/${post.image}`} alt="" className="img-fluid d-block m-auto mb-2" />
                                                                 </div>
                                                             </div>
                                                             <p>{post.content}</p>

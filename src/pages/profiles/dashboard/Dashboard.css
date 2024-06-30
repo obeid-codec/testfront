@@ -1,0 +1,40 @@
+.text-teal {
+    color: #20c997;
+}
+
+.dashboard-header {
+    background-color: #f8f9fa;
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.btn-group .btn {
+    margin: 5px;
+}
+
+.table th,
+.table td {
+    vertical-align: middle;
+}
+
+.table-hover tbody tr:hover {
+    background-color: #e9ecef;
+}
+
+.bg-teal {
+    background-color: #20c997 !important;
+}
+
+.experience-section, .education-section, .course-section {
+    margin-bottom: 20px;
+}
+
+@media (max-width: 768px) {
+    .btn-group .btn {
+        display: block;
+        width: 100%;
+        margin-bottom: 10px;
+    }
+}

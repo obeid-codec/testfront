@@ -1,10 +1,11 @@
 import React, { useEffect } from 'react';
-import * as userReducer from '../../../redux/users/users.reducer';
 import { useDispatch, useSelector } from 'react-redux';
-import Spinner from '../../../layout/misc/spinner/Spinner';
+import { Link } from 'react-router-dom';
+import * as userReducer from '../../../redux/users/users.reducer';
 import * as profileActions from '../../../redux/profiles/profile.actions';
 import * as profileReducer from '../../../redux/profiles/profile.reducer';
-import { Link } from 'react-router-dom';
+import Spinner from '../../../layout/misc/spinner/Spinner';
+import './Dashboard.css'; // Import custom CSS for additional styling
 
 const Dashboard = () => {
     const dispatch = useDispatch();
@@ -13,12 +14,11 @@ const Dashboard = () => {
     const profileInfo = useSelector((state) => state[profileReducer.profileFeatureKey]);
 
     const { profile, loading } = profileInfo || {};
+    const { user } = userInfo || {};
 
     useEffect(() => {
         dispatch(profileActions.getProfile());
     }, [dispatch]);
-
-    const { user } = userInfo || {};
 
     const clickDeleteExperience = (experienceId) => {
         dispatch(profileActions.deleteExperience(experienceId));
@@ -38,15 +38,28 @@ const Dashboard = () => {
                 <Spinner />
             ) : (
                 <React.Fragment>
-                    <section className="p-3">
+                    <section className="dashboard-header p-4 mb-4">
                         <div className="container">
                             <div className="row">
-                                <div className="col">
-                                    <p className="h3 text-teal">
-                                        <i className="fa fa-sitemap" />
-                                        Dashboard
-                                    </p>
-                                    {user && <p className="h5">Welcome {user.name}</p>}
+                                <div className="col text-center">
+                                    <h2 className="text-teal mb-4">
+                                        <i className="fa fa-sitemap" /> Dashboard
+                                    </h2>
+                                    {user && <p className="h5">Welcome, {user.name}</p>}
+                                    <div className="btn-group mt-3" role="group">
+                                        <Link to="/profiles/edit" className="btn btn-outline-primary">
+                                            <i className="fa fa-user-cog"></i> Edit Profile
+                                        </Link>
+                                        <Link to="/profiles/add-experience" className="btn btn-outline-success">
+                                            <i className="fa fa-user-tie"></i> Add Experience
+                                        </Link>
+                                        <Link to="/profiles/add-education" className="btn btn-outline-warning">
+                                            <i className="fa fa-graduation-cap"></i> Add Education
+                                        </Link>
+                                        <Link to="/profiles/add-course" className="btn btn-outline-info">
+                                            <i className="fa fa-book"></i> Add Course
+                                        </Link>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -55,33 +68,12 @@ const Dashboard = () => {
             )}
             {profile && Object.keys(profile).length > 0 ? (
                 <React.Fragment>
-                    <section>
-                        <div className="container">
-                            <div className="row">
-                                <div className="col">
-                                    <Link to="/profiles/edit" className="btn btn-light text-teal btn-sm">
-                                        <i className="fa fa-user-cog" /> Edit Profile
-                                    </Link>
-                                    <Link to="/profiles/add-experience" className="btn btn-light text-teal btn-sm">
-                                        <i className="fa fa-user-tie" /> Add Experience
-                                    </Link>
-                                    <Link to="/profiles/add-education" className="btn btn-light text-teal btn-sm">
-                                        <i className="fa fa-graduation-cap" /> Add Education
-                                    </Link>
-                                    <Link to="/profiles/add-course" className="btn btn-light text-teal btn-sm">
-                                        <i className="fa fa-graduation-cap" /> Add Course
-                                    </Link>
-                                </div>
-                            </div>
-                        </div>
-                    </section>
-                    {/* Experience Details */}
-                    <section>
-                        {profile.experience?.length > 0 && (
+                    {profile.experience?.length > 0 && (
+                        <section className="experience-section p-4">
                             <div className="container">
-                                <div className="row">
+                                <div className="row mb-3">
                                     <div className="col">
-                                        <p className="h3 text-teal">Experience Details</p>
+                                        <h3 className="text-teal">Experience Details</h3>
                                     </div>
                                 </div>
                                 <div className="row">
@@ -103,8 +95,8 @@ const Dashboard = () => {
                                                         <td>{exp.title}</td>
                                                         <td>{exp.company}</td>
                                                         <td>{exp.location}</td>
-                                                        <td>{exp.from}</td>
-                                                        <td>{exp.to}</td>
+                                                        <td>{new Date(exp.from).toLocaleDateString()}</td>
+                                                        <td>{exp.to ? new Date(exp.to).toLocaleDateString() : 'Present'}</td>
                                                         <td>
                                                             <button
                                                                 onClick={() => clickDeleteExperience(exp._id)}
@@ -120,15 +112,14 @@ const Dashboard = () => {
                                     </div>
                                 </div>
                             </div>
-                        )}
-                    </section>
-                    {/* Education Details */}
-                    <section>
-                        {profile.education?.length > 0 && (
+                        </section>
+                    )}
+                    {profile.education?.length > 0 && (
+                        <section className="education-section p-4">
                             <div className="container">
-                                <div className="row">
+                                <div className="row mb-3">
                                     <div className="col">
-                                        <p className="h3 text-teal">Education Details</p>
+                                        <h3 className="text-teal">Education Details</h3>
                                     </div>
                                 </div>
                                 <div className="row">
@@ -150,8 +141,8 @@ const Dashboard = () => {
                                                         <td>{edu.school}</td>
                                                         <td>{edu.degree}</td>
                                                         <td>{edu.fieldOfStudy}</td>
-                                                        <td>{edu.from}</td>
-                                                        <td>{edu.to}</td>
+                                                        <td>{new Date(edu.from).toLocaleDateString()}</td>
+                                                        <td>{edu.to ? new Date(edu.to).toLocaleDateString() : 'Present'}</td>
                                                         <td>
                                                             <button
                                                                 onClick={() => clickDeleteEducation(edu._id)}
@@ -167,15 +158,14 @@ const Dashboard = () => {
                                     </div>
                                 </div>
                             </div>
-                        )}
-                    </section>
-                    {/* Course Details */}
-                    <section>
-                        {profile.courses?.length > 0 && (
+                        </section>
+                    )}
+                    {profile.courses?.length > 0 && (
+                        <section className="course-section p-4">
                             <div className="container">
-                                <div className="row">
+                                <div className="row mb-3">
                                     <div className="col">
-                                        <p className="h3 text-teal">Course Details</p>
+                                        <h3 className="text-teal">Course Details</h3>
                                     </div>
                                 </div>
                                 <div className="row">
@@ -210,18 +200,18 @@ const Dashboard = () => {
                                     </div>
                                 </div>
                             </div>
-                        )}
-                    </section>
+                        </section>
+                    )}
                 </React.Fragment>
             ) : (
                 <React.Fragment>
-                    <section>
-                        <div className="container">
+                    <section className="p-4">
+                        <div className="container text-center">
                             <div className="row">
                                 <div className="col">
-                                    <small>You don't have a profile yet! , please create one.</small><br />
-                                    <Link to="/profiles/create" className="btn btn-light text-teal btn-sm">
-                                        <i className="fa fa-user-cog" /> Create Profile
+                                    <p>You don't have a profile yet! Please create one.</p>
+                                    <Link to="/profiles/create" className="btn btn-outline-primary btn-sm">
+                                        <i className="fa fa-user-cog"></i> Create Profile
                                     </Link>
                                 </div>
                             </div>
