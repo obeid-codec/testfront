@@ -42,9 +42,26 @@ const Upload = () => {
         });
     };
 
+    const handleFileChange = (e) => {
+        setEvent({
+            ...event,
+            image: e.target.files[0]
+        });
+    };
+
+
     const submitUpload = (e) => {
         e.preventDefault();
-        dispatch(eventActions.createEvent(event, navigate));
+
+        const formData = new FormData();
+        formData.append('name', event.name);
+        formData.append('image', event.image);
+        formData.append('description', event.description);
+        formData.append('eventDate', event.eventDate);
+        formData.append('location', event.location);
+        formData.append('relatedGroupID', event.relatedGroupID);
+
+        dispatch(eventActions.createEvent(formData, navigate));
         setEvent({
             name: "",
             image: "",
@@ -91,10 +108,9 @@ const Upload = () => {
                                         <div className="form-group">
                                             <input
                                                 name="image"
-                                                value={event.image}
-                                                onChange={updateInput}
+                                                onChange={handleFileChange}
                                                 required
-                                                type="text" className="form-control" placeholder="Image" />
+                                                type="file" className="form-control" placeholder="Image" />
                                         </div>
                                         <div className="form-group">
                                             <select
