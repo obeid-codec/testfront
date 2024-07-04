@@ -17,34 +17,41 @@ const PostList = () => {
     });
 
     const fileInputRef = useRef(null);
-
-    const { groupId } = useParams();
+    const { groupId, studentId } = useParams();
 
     const dispatch = useDispatch();
     const userInfo = useSelector((state) => state[userReducer.usersFeatureKey]);
     const { user } = userInfo || {};
 
     const postInfo = useSelector((state) => state[postReducer.postFeatureKey]);
-    const { loading, posts } = postInfo;
+    const { loading, posts } = postInfo || { loading: false, posts: [] };
 
     const groupInfo = useSelector((state) => state[groupReducer.groupFeatureKey]);
-    const { groups } = groupInfo;
+    const { groups } = groupInfo || { groups: [] };
 
     useEffect(() => {
-        if (groupId) {
-            dispatch(postActions.getPostsbyGroup(groupId));
+        if (studentId) {
+            dispatch(postActions.getPostsbyUser(studentId));
             setLocalPost({
-                ...localPost, studyGroupID: groupId
-            })
+                content: '',
+                image: null,
+                studyGroupID: ''
+            });
+        } else if (groupId) {
+            dispatch(postActions.getPostsbyGroup(groupId));
+            setLocalPost((prevPost) => ({
+                ...prevPost,
+                studyGroupID: groupId
+            }));
         } else {
             dispatch(postActions.getAllPosts());
             setLocalPost({
                 content: '',
                 image: null,
                 studyGroupID: ''
-            })
+            });
         }
-    }, [dispatch, groupId]);
+    }, [dispatch, groupId, studentId]);
 
     useEffect(() => {
         dispatch(groupActions.getGroups());
@@ -52,17 +59,17 @@ const PostList = () => {
 
     const updateInput = (e) => {
         const { name, value } = e.target;
-        setLocalPost({
-            ...localPost,
+        setLocalPost((prevPost) => ({
+            ...prevPost,
             [name]: value
-        });
+        }));
     };
 
     const handleFileChange = (e) => {
-        setLocalPost({
-            ...localPost,
+        setLocalPost((prevPost) => ({
+            ...prevPost,
             image: e.target.files[0]
-        });
+        }));
     };
 
     const submitCreatePost = (e) => {
@@ -88,6 +95,8 @@ const PostList = () => {
         // Fetch posts again after creating a new post
         if (groupId) {
             dispatch(postActions.getPostsbyGroup(groupId));
+        } else if (studentId) {
+            dispatch(postActions.getPostsbyUser(studentId));
         } else {
             dispatch(postActions.getAllPosts());
         }
@@ -97,6 +106,8 @@ const PostList = () => {
         dispatch(postActions.deletePost(postId)).then(() => {
             if (groupId) {
                 dispatch(postActions.getPostsbyGroup(groupId));
+            } else if (studentId) {
+                dispatch(postActions.getPostsbyUser(studentId));
             } else {
                 dispatch(postActions.getAllPosts());
             }
@@ -112,7 +123,7 @@ const PostList = () => {
     };
 
     const getGroupNameById = (groupId) => {
-        const group = groups.find(group => group._id === groupId);
+        const group = groups.find((group) => group._id === groupId);
         return group ? group.name : 'Unknown Group';
     };
 
@@ -125,7 +136,7 @@ const PostList = () => {
                             <h3 className="text-teal">Welcome to UniConnect</h3>
                         </div>
                     </div>
-                    {Object.keys(user).length > 0 && (
+                    {user && Object.keys(user).length > 0 && (
                         <div className="row mb-4">
                             <div className="col-md-8">
                                 <form onSubmit={submitCreatePost}>
@@ -143,7 +154,6 @@ const PostList = () => {
                                     </div>
                                     <div className="mb-3">
                                         <input
-                                            required
                                             name="image"
                                             ref={fileInputRef}
                                             onChange={handleFileChange}
@@ -177,11 +187,11 @@ const PostList = () => {
             <section>
                 {loading ? <Spinner /> : (
                     <Fragment>
-                        {posts.length > 0 ? (
+                        {posts && posts.length > 0 ? (
                             <div className="container">
                                 <div className="row">
                                     <div className="col">
-                                        {posts.map(post => (
+                                        {posts.map((post) => (
                                             <div className="card my-3" key={post._id}>
                                                 <div className="card-body">
                                                     <div className="row">

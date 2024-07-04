@@ -29,6 +29,7 @@ const StudentList = () => {
                 </div>
             </section>
             <section>
+                {JSON.stringify(profiles)}
                 {loading ? <Spinner /> : (
                     <Fragment>
                         {profiles.length > 0 ? (
@@ -45,6 +46,8 @@ const StudentList = () => {
                                                         <p className="text-muted">{profile.company}</p>
                                                         <p>{profile.location}</p>
                                                         <Link to={`/student/${profile._id}`} className="btn btn-teal btn-sm">View Profile</Link>
+                                                        <Link to={`/students/posts/${profile.user._id}`} className="btn btn-teal btn-sm">View Posts</Link>
+
                                                     </div>
                                                 </div>
                                             </div>
