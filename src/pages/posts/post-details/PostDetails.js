@@ -60,10 +60,10 @@ const PostDetails = () => {
                                                     </div>
                                                     <div className="col-md-10">
                                                         <div className="col-md-6">
-                                                            <img src={selectedPost.image} alt="" className="img-fluid d-block m-auto" />
+                                                            <img src={`http://127.0.0.1:3000/${selectedPost.image}`} alt="" className="img-fluid d-block m-auto" />
                                                         </div>
                                                         <p>{selectedPost.text}</p>
-                                                        <small className="text-muted">{new Date(selectedPost.createdAt).toLocaleString()}</small>
+                                                        <small className="text-muted">{new Date(selectedPost.timestamp).toLocaleString()}</small>
                                                     </div>
                                                 </div>
                                                 <div className="row mt-3">
@@ -112,7 +112,7 @@ const PostDetails = () => {
                                                         </div>
                                                         <div className="col-md-9">
                                                             <p className="mb-1">{comment.content}</p>
-                                                            <small className="text-muted">{new Date(comment.createdAt).toLocaleString()}</small>
+                                                            <small className="text-muted">{new Date(comment.date).toLocaleString()}</small>
                                                         </div>
                                                         {comment.userID === user._id && (
                                                             <div className="col-md-1 text-end">

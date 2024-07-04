@@ -33,8 +33,16 @@ const PostList = () => {
     useEffect(() => {
         if (groupId) {
             dispatch(postActions.getPostsbyGroup(groupId));
+            setLocalPost({
+                ...localPost, studyGroupID: groupId
+            })
         } else {
             dispatch(postActions.getAllPosts());
+            setLocalPost({
+                content: '',
+                image: null,
+                studyGroupID: ''
+            })
         }
     }, [dispatch, groupId]);
 

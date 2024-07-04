@@ -7,76 +7,65 @@ import Spinner from "../../../layout/misc/spinner/Spinner";
 
 const StudentList = () => {
 
-    let dispatch = useDispatch();
-    let studentInfo = useSelector((state) => {
-        return state[studentReducer.studentFeatureKey]
-    })
+    const dispatch = useDispatch();
+    const studentInfo = useSelector((state) => state[studentReducer.studentFeatureKey]);
 
-    let { loading, profiles } = studentInfo
-
+    const { loading, profiles } = studentInfo;
 
     useEffect(() => {
-        dispatch(studentActions.fetchAllStudents())
-    }, [dispatch])
+        dispatch(studentActions.fetchAllStudents());
+    }, [dispatch]);
 
     return (
         <Fragment>
-            <section className="p-3">
+            <section className="p-3 student-list-header">
                 <div className="container">
                     <div className="row animated zoomIn">
-                        <div className="col">
-                            <p className="h3 text-teal">
-                                <i className="fa fa-user-tie" /> Students</p>
+                        <div className="col text-center">
+                            <h3 className="text-teal"><i className="fa fa-user-tie" /> Students</h3>
                             <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium animi fugiat iusto laudantium rerum. Adipisci animi blanditiis, culpa expedita explicabo, fugiat incidunt labore nostrum omnis, praesentium sit temporibus tenetur velit!</p>
                         </div>
                     </div>
                 </div>
             </section>
             <section>
-                {
-                    loading ? <Spinner /> :
-                        <React.Fragment>
-                            {
-                                profiles.length > 0 ?
-                                    <React.Fragment>
-                                        <div className="container">
-                                            <div className="row">
-                                                <div className="col">
-                                                    {
-                                                        profiles.map(profile => {
-                                                            return (
-                                                                <div className="card my-2 animated zoomIn" key={profile._id}>
-                                                                    <div className="card-body bg-light-grey">
-                                                                        <div className="row">
-                                                                            <div className="col-md-2">
-                                                                                <img src={profile.user.avatar} className="img-fluid img-thumbnail" alt="" />
-                                                                            </div>
-                                                                            <div className="col-md-5">
-                                                                                <h2>{profile.user.name}</h2>
-                                                                                <small className="h6">{profile.designation}</small><br />
-                                                                                <small className="h6">{profile.company}</small><br />
-                                                                                <small>{profile.location}</small><br />
-                                                                                <Link to={`/student/${profile._id}`} className="btn btn-teal btn-sm">View Profile</Link>
-                                                                            </div>
-                                                                            <div className="col-md-5">
-
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            )
-                                                        })
-                                                    }
+                {loading ? <Spinner /> : (
+                    <Fragment>
+                        {profiles.length > 0 ? (
+                            <div className="container">
+                                <div className="row">
+                                    {profiles.map(profile => (
+                                        <div className="col-md-6 col-lg-4" key={profile._id}>
+                                            <div className="card my-3 animated zoomIn shadow-sm">
+                                                <div className="card-body">
+                                                    <div className="text-center">
+                                                        <img src={profile.user.avatar} className="img-fluid rounded-circle mb-3" alt="" width="100" height="100" />
+                                                        <h5>{profile.user.name}</h5>
+                                                        <p className="text-muted">{profile.designation}</p>
+                                                        <p className="text-muted">{profile.company}</p>
+                                                        <p>{profile.location}</p>
+                                                        <Link to={`/student/${profile._id}`} className="btn btn-teal btn-sm">View Profile</Link>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </React.Fragment> : null
-                            }
-                        </React.Fragment>
-                }
+                                    ))}
+                                </div>
+                            </div>
+                        ) : (
+                            <div className="container">
+                                <div className="row">
+                                    <div className="col text-center">
+                                        <p>No students found</p>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
+                    </Fragment>
+                )}
             </section>
         </Fragment>
-    )
-}
+    );
+};
 
-export default StudentList
+export default StudentList;

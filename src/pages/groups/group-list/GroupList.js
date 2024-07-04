@@ -111,6 +111,11 @@ const GroupList = () => {
                                                         <Link to={`/groups/${group._id}`} className="btn btn-outline-primary btn-sm me-2 mb-2">
                                                             Visit
                                                         </Link>
+
+                                                        <Link to={`/events/${group._id}`} className="btn btn-outline-primary btn-sm me-2 mb-2">
+                                                            EVENTS
+                                                        </Link>
+
                                                         {user.isAdmin && (
                                                             <>
                                                                 <Link to={`/groups/edit/${group._id}`} className="btn btn-outline-warning btn-sm me-2 mb-2">

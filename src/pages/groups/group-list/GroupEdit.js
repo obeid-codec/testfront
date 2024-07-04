@@ -58,8 +58,6 @@ const GroupEdit = () => {
 
     return (
         <Fragment>
-            {JSON.stringify(selectedGroup)}
-
             <section className="p-3">
                 <div className="container">
                     <div className="row">

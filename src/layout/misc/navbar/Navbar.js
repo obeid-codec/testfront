@@ -12,6 +12,7 @@ const Navbar = () => {
     const userInfo = useSelector((state) => state[userReducer.usersFeatureKey]);
     const { user, isAuthenticated } = userInfo;
 
+
     const clickLogOut = () => {
         dispatch(userActions.logoutUser(navigate));
     };
@@ -33,7 +34,7 @@ const Navbar = () => {
 
     const afterLogin = (
         <React.Fragment>
-            {Object.keys(user).length > 0 && (
+            {isAuthenticated && (
                 <React.Fragment>
                     <li className="nav-item">
                         <Link to="/profiles/dashboard" className="nav-link">

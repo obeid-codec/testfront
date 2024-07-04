@@ -88,7 +88,28 @@ const StudentDetails = () => {
                                         </div>
                                     </div>
                                 </div>
+
                                 <div className="container my-4">
+                                    <div className="row">
+                                        <div className="col">
+                                            {selectedProfile.courses.length > 0 && (
+                                                <div className="card mb-4">
+                                                    <div className="card-body bg-light-grey">
+                                                        <p className="h3">Courses</p>
+                                                        <ul className="list-group">
+                                                            {selectedProfile.courses.map(crs => (
+                                                                <li className="list-group-item my-2" key={crs._id}>
+                                                                    <span><strong>Course:</strong> {crs.course}</span><br />
+                                                                    <span><strong>Semester:</strong> {crs.semester}</span><br />
+                                                                    <span><strong>Description:</strong> {crs.description}</span><br />
+                                                                </li>
+                                                            ))}
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            )}
+                                        </div>
+                                    </div>
                                     <div className="row">
                                         <div className="col-md-6">
                                             {selectedProfile.experience.length > 0 && (
@@ -133,26 +154,7 @@ const StudentDetails = () => {
                                             )}
                                         </div>
                                     </div>
-                                    <div className="row">
-                                        <div className="col">
-                                            {selectedProfile.courses.length > 0 && (
-                                                <div className="card mb-4">
-                                                    <div className="card-body bg-light-grey">
-                                                        <p className="h3">Courses</p>
-                                                        <ul className="list-group">
-                                                            {selectedProfile.courses.map(crs => (
-                                                                <li className="list-group-item my-2" key={crs._id}>
-                                                                    <span><strong>Course:</strong> {crs.course}</span><br />
-                                                                    <span><strong>Semester:</strong> {crs.semester}</span><br />
-                                                                    <span><strong>Description:</strong> {crs.description}</span><br />
-                                                                </li>
-                                                            ))}
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                            )}
-                                        </div>
-                                    </div>
+
                                 </div>
                             </section>
                         </React.Fragment>
