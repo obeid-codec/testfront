@@ -58,7 +58,7 @@ const EventList = () => {
                             <div className="d-flex justify-content-between align-items-center">
                                 <div>
                                     <p className="h3 text-teal">Events</p>
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam doloribus molestiae omnis quis! Autem commodi cum, doloremque ducimus et illo incidunt ipsa laboriosam magni natus nostrum nulla odio omnis praesentium recusandae, sit soluta ullam voluptatem?</p>
+                                    <p>Discover events organized by group admins, complete with specific dates and locations. Stay updated and participate in upcoming activities.</p>
                                     <p className="h5">Total Events Available: {events.length}</p>
                                 </div>
                                 <div>

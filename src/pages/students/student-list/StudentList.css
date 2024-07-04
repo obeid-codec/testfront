@@ -1,0 +1,43 @@
+.student-list {
+    padding: 20px;
+}
+
+.student-list-header {
+    padding: 30px 0;
+    background-color: #f8f9fa;
+    margin-bottom: 20px;
+}
+
+.text-teal {
+    color: #20c997;
+}
+
+.description {
+    font-size: 1rem;
+    color: #6c757d;
+}
+
+.profile-card {
+    margin: 15px 0;
+}
+
+.profile-avatar {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+}
+
+.profile-actions {
+    margin-top: 10px;
+}
+
+.btn-teal {
+    background-color: #20c997;
+    color: #fff;
+    border: none;
+    margin: 0 5px;
+}
+
+.btn-teal:hover {
+    background-color: #17a2b8;
+}
