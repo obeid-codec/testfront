@@ -24,6 +24,12 @@ export const EDIT_USER_INFO_REQUEST = 'EDIT_USER_INFO_REQUEST';
 export const EDIT_USER_INFO_SUCCESS = 'EDIT_USER_INFO_SUCCESS';
 export const EDIT_USER_INFO_FAILURE = 'EDIT_USER_INFO_FAILURE';
 
+
+export const TOGGLE_ADMIN_REQUEST = 'TOGGLE_ADMIN_REQUEST';
+export const TOGGLE_ADMIN_SUCCESS = 'TOGGLE_ADMIN_SUCCESS';
+export const TOGGLE_ADMIN_FAILURE = 'TOGGLE_ADMIN_FAILURE';
+
+
 export const LOGOUT_USER = 'LOGOUT_USER';
 export const LOGOUT_USER_FAILURE = 'LOGOUT_USER_FAILURE';
 
@@ -84,7 +90,7 @@ export const getUserInfo = () => {
 }
 
 
-export const editUserInfoRequest = (user, history) => {
+export const editUserInfoRequest = (user, navigate) => {
     return async (dispatch) => {
         try {
             if (userUtil.isLoggedIn()) {
@@ -97,7 +103,7 @@ export const editUserInfoRequest = (user, history) => {
             let response = await Axios.put(url, user);
             dispatch({ type: EDIT_USER_INFO_SUCCESS, payload: response.data });
             dispatch(alertActions.setAlert('Edit User Info is Success', 'success'));
-            history.push('/profile');
+            navigate('/profiles/dashboard');
         }
         catch (error) {
             dispatch({ type: EDIT_USER_INFO_FAILURE, payload: { error: error } });
@@ -108,7 +114,26 @@ export const editUserInfoRequest = (user, history) => {
     }
 }
 
+export const toggleAdmin = (userId, isAdmin, callback) => {
+    return async (dispatch) => {
+        try {
+            if (userUtil.isLoggedIn()) {
+                let token = userUtil.getTokens();
+                authUtil.setAuthToken(token);
+            }
+            dispatch({ type: TOGGLE_ADMIN_REQUEST });
+            let url = `http://localhost:3000/users/${userId}`;
+            let response = await Axios.put(url, { isAdmin });
+            dispatch({ type: TOGGLE_ADMIN_SUCCESS, payload: response.data });
+            dispatch(alertActions.setAlert(`User ${isAdmin ? 'granted' : 'revoked'} admin rights`, 'success'));
+            if (callback) callback(); // Call the callback function
 
+        } catch (error) {
+            dispatch({ type: TOGGLE_ADMIN_FAILURE, payload: { error: error } });
+            dispatch(alertActions.setAlert('Failed to update admin status', 'danger'));
+        }
+    }
+}
 
 export const logoutUser = (navigate) => {
     return async (dispatch) => {

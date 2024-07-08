@@ -43,6 +43,13 @@ export const reducer = (state = initialState, action) => {
             return { ...state, loading: false, user: payload.user };
         case userActions.EDIT_USER_INFO_FAILURE:
             return { ...state, loading: false, errorMessage: payload.error.message };
+        // Make admin
+        case userActions.TOGGLE_ADMIN_REQUEST:
+            return { ...state, loading: true };
+        case userActions.TOGGLE_ADMIN_SUCCESS:
+            return { ...state, loading: false, user: payload.user };
+        case userActions.TOGGLE_ADMIN_FAILURE:
+            return { ...state, loading: false, errorMessage: payload.error.message };
         // Logout User
         case userActions.LOGOUT_USER:
             localStorage.removeItem('uniconnect-auth-token');

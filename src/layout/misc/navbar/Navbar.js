@@ -57,7 +57,7 @@ const Navbar = () => {
                         </Link>
                     </li>
                     <li className="nav-item">
-                        <Link to="/" className="nav-link">
+                        <Link to="/users/edit" className="nav-link">
                             <img src={user.avatar} alt="" width="25" height="25" className="rounded-circle" />
                         </Link>
                     </li>

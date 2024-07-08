@@ -1,11 +1,15 @@
-import React from "react";
-import { Route, Redirect } from 'react-router-dom';
+import React from 'react';
+import { Navigate, useLocation } from 'react-router-dom';
 import * as userUtil from './userUtil';
 
-let PrivateRoute = ({ component: Component, ...rest }) => {
+const PrivateRoute = ({ element: Component }) => {
+    const location = useLocation();
 
-    return <Route {...rest} render={(props) => {
-        return !userUtil.isLoggedIn() ? <Redirect to="/users/login" /> : <Component {...props} />
-    }} />
+    return userUtil.isLoggedIn() ? (
+        Component
+    ) : (
+        <Navigate to="/" state={{ from: location }} />
+    );
 };
+
 export default PrivateRoute;

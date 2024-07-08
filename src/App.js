@@ -23,6 +23,8 @@ import GroupList from './pages/groups/group-list/GroupList';
 import GroupEdit from './pages/groups/group-list/GroupEdit';
 import Upload from './pages/events/upload/Upload';
 import EventDetails from './pages/events/event-details/EventDetails';
+import PrivateRoute from "./util/PrivateRoute";
+import UserEdit from './pages/users/user-edit/UserEdit';
 
 function App() {
   const dispatch = useDispatch();
@@ -30,7 +32,7 @@ function App() {
 
   useEffect(() => {
     dispatch(userActions.getUserInfo());
-  }, [])
+  }, [dispatch])
 
   return (
     <Fragment>
@@ -41,24 +43,26 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/users/login" element={<UserLogin />} />
           <Route path="/users/register" element={<UserRegister />} />
-          <Route path="/student/:studentId" element={<StudentDetails />} />
-          <Route path="/students/posts/:studentId?" element={<PostList />} />
-          <Route path="/students" element={<StudentList />} />
-          <Route path="/profiles/add-education" element={<AddEducation />} />
-          <Route path="/profiles/add-experience" element={<AddExperience />} />
-          <Route path="/profiles/add-course" element={<AddCourse />} />
-          <Route path="/profiles/create" element={<CreateProfile />} />
-          <Route path="/profiles/dashboard" element={<Dashboard />} />
-          <Route path="/profiles/edit" element={<EditProfile />} />
-          <Route path="/posts/:postId" element={<PostDetails />} />
-          <Route path="/posts" element={<PostList />} />
-          <Route path="/groups" element={<GroupList />} />
-          <Route path="/groups/edit/:groupId" element={<GroupEdit />} />
-          <Route path="/groups/:groupId?" element={<PostList />} />
+          <Route path="/users/edit" element={<UserEdit />} />
 
-          <Route path="/events/create" element={<Upload />} />
-          <Route path="/events/:groupId?" element={<EventList />} />
-          <Route path="/events/event/:eventId" element={<EventDetails />} />
+          <Route path="/student/:studentId" element={<PrivateRoute element={<StudentDetails />} />} />
+          <Route path="/students/posts/:studentId?" element={<PrivateRoute element={<PostList />} />} />
+          <Route path="/students" element={<PrivateRoute element={<StudentList />} />} />
+          <Route path="/profiles/add-education" element={<PrivateRoute element={<AddEducation />} />} />
+          <Route path="/profiles/add-experience" element={<PrivateRoute element={<AddExperience />} />} />
+          <Route path="/profiles/add-course" element={<PrivateRoute element={<AddCourse />} />} />
+          <Route path="/profiles/create" element={<PrivateRoute element={<CreateProfile />} />} />
+          <Route path="/profiles/dashboard" element={<PrivateRoute element={<Dashboard />} />} />
+          <Route path="/profiles/edit" element={<PrivateRoute element={<EditProfile />} />} />
+          <Route path="/posts/:postId" element={<PrivateRoute element={<PostDetails />} />} />
+          <Route path="/posts" element={<PrivateRoute element={<PostList />} />} />
+          <Route path="/groups" element={<PrivateRoute element={<GroupList />} />} />
+          <Route path="/groups/edit/:groupId" element={<PrivateRoute element={<GroupEdit />} />} />
+          <Route path="/groups/:groupId?" element={<PrivateRoute element={<PostList />} />} />
+
+          <Route path="/events/create" element={<PrivateRoute element={<Upload />} />} />
+          <Route path="/events/:groupId?" element={<PrivateRoute element={<EventList />} />} />
+          <Route path="/events/event/:eventId" element={<PrivateRoute element={<EventDetails />} />} />
 
 
           <Route path="*" element={<div>404 Not Found</div>} />
