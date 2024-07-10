@@ -1,34 +1,27 @@
-import React, { Fragment, useEffect, useState } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
-import * as groupReducer from '../../../redux/groups/groups.reducers'
-import * as groupActions from '../../../redux/groups/groups.actions'
-import * as userReducer from '../../../redux/users/users.reducer';
+import React, { Fragment, useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import * as groupReducer from '../../../redux/groups/groups.reducers';
+import * as groupActions from '../../../redux/groups/groups.actions';
+import * as userReducer from '../../../redux/users/users.reducer';
+import Spinner from '../../../layout/misc/spinner/Spinner';
+
 const GroupEdit = () => {
-    const { groupId } = useParams()
-    const navigate = useNavigate()
+    const { groupId } = useParams();
+    const navigate = useNavigate();
 
-
-
-
-
-    let [localGroup, setLocalGroup] = useState({
+    const [localGroup, setLocalGroup] = useState({
         name: '',
         description: '',
     });
 
-    let dispatch = useDispatch();
+    const dispatch = useDispatch();
 
     const userInfo = useSelector((state) => state[userReducer.usersFeatureKey]);
-
     const { user } = userInfo || {};
 
-    const groupInfo = useSelector((state) => {
-        return state[groupReducer.groupFeatureKey]
-    })
-
-    let { loading, selectedGroup } = groupInfo;
-
+    const groupInfo = useSelector((state) => state[groupReducer.groupFeatureKey]);
+    const { loading, selectedGroup } = groupInfo;
 
     useEffect(() => {
         dispatch(groupActions.getSpecificGroup(groupId));
@@ -42,69 +35,76 @@ const GroupEdit = () => {
             });
         }
     }, [selectedGroup]);
-    let updateInput = (e) => {
+
+    const updateInput = (e) => {
         setLocalGroup({
             ...localGroup,
-            [e.target.name]: e.target.value
+            [e.target.name]: e.target.value,
         });
     };
 
     const submitEditGroup = (e) => {
         e.preventDefault();
         dispatch(groupActions.updateGroup(groupId, localGroup, navigate));
-
-    }
-
+    };
 
     return (
         <Fragment>
             <section className="p-3">
                 <div className="container">
                     <div className="row">
-                        <div className="col">
-                            <p className="h3 text-teal">
-                                UniConnect Group Edit
-                            </p>
-                            <p className='h5'>Edit STUDY GROUP</p>
-
+                        <div className="col text-center">
+                            <h3 className="text-teal">
+                                <i className="fa fa-users-cog" /> UniConnect Group Edit
+                            </h3>
+                            <p className="lead">Edit Study Group</p>
                         </div>
                     </div>
-                    <div className="row">
-                        {
-                            Object.keys(user).length > 0 && user.isAdmin &&
-                            <div className="col-md-8">
-                                <form onSubmit={submitEditGroup}>
-                                    <div className="input-group mb-1">
-                                        <input
-                                            required
-                                            name="name"
-                                            value={localGroup.name}
-                                            onChange={updateInput}
-                                            type="text" className="form-control" placeholder="Group Name" />
-                                    </div>
-                                    <div className="input-group mb-1">
-                                        <div className="input-group-prepend">
+                    {loading ? (
+                        <Spinner />
+                    ) : (
+                        <div className="row">
+                            {Object.keys(user).length > 0 && user.isAdmin && (
+                                <div className="col-md-8 mx-auto">
+                                    <div className="card shadow-sm">
+                                        <div className="card-body">
+                                            <form onSubmit={submitEditGroup}>
+                                                <div className="form-group mb-3">
+                                                    <label htmlFor="name">Group Name</label>
+                                                    <input
+                                                        required
+                                                        name="name"
+                                                        value={localGroup.name}
+                                                        onChange={updateInput}
+                                                        type="text"
+                                                        className="form-control"
+                                                        placeholder="Group Name"
+                                                    />
+                                                </div>
+                                                <div className="form-group mb-3">
+                                                    <label htmlFor="description">Description</label>
+                                                    <textarea
+                                                        required
+                                                        name="description"
+                                                        value={localGroup.description}
+                                                        onChange={updateInput}
+                                                        rows="4"
+                                                        className="form-control"
+                                                        placeholder="Description.."
+                                                    />
+                                                </div>
+                                                <button type="submit" className="btn btn-teal btn-block">Edit</button>
+                                            </form>
                                         </div>
-                                        <textarea
-                                            required
-                                            name="description"
-                                            value={localGroup.description}
-                                            onChange={updateInput}
-                                            rows="3" className="form-control" placeholder="Description.." />
                                     </div>
-
-                                    <div>
-                                        <input type="submit" className="btn btn-teal btn-sm" value="Edit" />
-                                    </div>
-                                </form>
-                            </div>
-                        }
-                    </div>
-                    <hr />
+                                </div>
+                            )}
+                        </div>
+                    )}
                 </div>
             </section>
         </Fragment>
-    )
-}
+    );
+};
 
-export default GroupEdit
+export default GroupEdit;

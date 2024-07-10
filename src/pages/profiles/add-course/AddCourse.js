@@ -2,94 +2,91 @@ import React, { useState } from 'react';
 import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import * as profileActions from "../../../redux/profiles/profile.actions";
+import './AddCourse.css'; // Assuming you have a separate CSS file for styling
 
-let AddCourse = () => {
-    let dispatch = useDispatch();
-    let navigate = useNavigate();
+const AddCourse = () => {
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
 
-    let [courses, setCourses] = useState({
+    const [courses, setCourses] = useState({
         course: '',
         semester: '',
         description: ''
     });
 
-    let updateInput = (e) => {
-        if (e.target.type === 'checkbox') {
-            setCourses({
-                ...courses,
-                [e.target.name]: e.target.checked
-            });
-        }
-        else {
-            setCourses({
-                ...courses,
-                [e.target.name]: e.target.value
-            });
-        }
+    const updateInput = (e) => {
+        const { name, value, type, checked } = e.target;
+        setCourses({
+            ...courses,
+            [name]: type === 'checkbox' ? checked : value
+        });
     };
 
-    let submitAddCourses = (e) => {
+    const submitAddCourses = (e) => {
         e.preventDefault();
         dispatch(profileActions.addCourse(courses, navigate));
     };
 
     return (
         <React.Fragment>
-            <section className="p-3">
+            <section className="p-3 add-course-header">
                 <div className="container">
                     <div className="row">
-                        <div className="col">
-                            <p className="h3 text-teal">
-                                <i className="fa fa-user-clock" />
-                                {' '} Add Course
+                        <div className="col text-center">
+                            <h3 className="text-teal">
+                                <i className="fa fa-user-clock" /> Add Course
+                            </h3>
+                            <p>
+                                Provide details about the course you have taken. Fill in the fields below and click 'Add Course' to save.
                             </p>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci atque dignissimos distinctio dolor error expedita id incidunt, iusto laborum, molestiae mollitia optio placeat quod recusandae soluta unde, vel! Deserunt, quisquam!</p>
                         </div>
                     </div>
                 </div>
             </section>
-            <section>
+            <section className="p-3">
                 <div className="container">
                     <div className="row">
-                        <div className="col-md-8">
-                            <form onSubmit={submitAddCourses}>
-                                <div className="input-group mb-3">
-                                    <div className="input-group-prepend">
-                                        <span className="input-group-text bg-light-grey text-teal">Course</span>
-                                    </div>
+                        <div className="col-md-8 mx-auto">
+                            <form onSubmit={submitAddCourses} className="add-course-form">
+                                <div className="form-group mb-3">
+                                    <label className="form-label">Course</label>
                                     <input
                                         required
                                         name="course"
                                         value={courses.course}
                                         onChange={updateInput}
-                                        type="text" className="form-control" placeholder="Course" />
+                                        type="text"
+                                        className="form-control"
+                                        placeholder="Course"
+                                    />
                                 </div>
-                                <div className="input-group mb-3">
-                                    <div className="input-group-prepend">
-                                        <span className="input-group-text bg-light-grey text-teal">Semester</span>
-                                    </div>
+                                <div className="form-group mb-3">
+                                    <label className="form-label">Semester</label>
                                     <input
                                         required
                                         name="semester"
                                         value={courses.semester}
                                         onChange={updateInput}
-                                        type="text" className="form-control" placeholder="semester" />
+                                        type="text"
+                                        className="form-control"
+                                        placeholder="Semester"
+                                    />
                                 </div>
-
-                                <div className="input-group mb-3">
-                                    <div className="input-group-prepend">
-                                        <span className="input-group-text bg-light-grey text-teal">Description</span>
-                                    </div>
+                                <div className="form-group mb-3">
+                                    <label className="form-label">Description</label>
                                     <textarea
                                         required
                                         name="description"
                                         value={courses.description}
                                         onChange={updateInput}
-                                        rows="3" className="form-control" placeholder="Description" />
+                                        rows="3"
+                                        className="form-control"
+                                        placeholder="Description"
+                                    />
                                 </div>
-                                <div>
-                                    <input type="submit" value="add education" className="btn btn-teal btn-sm" />
-                                    <Link to="/profiles/dashboard" className="btn bg-light-grey btn-sm">Back</Link>
+                                <div className="d-flex justify-content-between">
+                                    <input type="submit" value="Add Course" className="btn btn-teal" />
+                                    <Link to="/profiles/dashboard" className="btn btn-secondary">Back</Link>
                                 </div>
                             </form>
                         </div>
@@ -97,6 +94,7 @@ let AddCourse = () => {
                 </div>
             </section>
         </React.Fragment>
-    )
+    );
 };
+
 export default AddCourse;

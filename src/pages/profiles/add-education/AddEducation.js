@@ -2,142 +2,142 @@ import React, { useState } from 'react';
 import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import * as profileActions from "../../../redux/profiles/profile.actions";
+import './AddEducation.css';  // Assuming you have a separate CSS file for styling
 
-let AddEducation = () => {
-    let dispatch = useDispatch();
-    let navigate = useNavigate();
+const AddEducation = () => {
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
 
-    let [education, setEducation] = useState({
+    const [education, setEducation] = useState({
         school: '',
         degree: '',
         fieldOfStudy: '',
         from: '',
         to: '',
-        current: '',
+        current: false,
         description: ''
     });
 
-    let updateInput = (e) => {
-        if (e.target.type === 'checkbox') {
-            setEducation({
-                ...education,
-                [e.target.name]: e.target.checked
-            });
-        }
-        else {
-            setEducation({
-                ...education,
-                [e.target.name]: e.target.value
-            });
-        }
+    const updateInput = (e) => {
+        const { name, value, type, checked } = e.target;
+        setEducation({
+            ...education,
+            [name]: type === 'checkbox' ? checked : value
+        });
     };
 
-    let submitAddEducation = (e) => {
+    const submitAddEducation = (e) => {
         e.preventDefault();
         dispatch(profileActions.addEducation(education, navigate));
     };
 
     return (
         <React.Fragment>
-            {/*<pre>{JSON.stringify(education)}</pre>*/}
-            <section className="p-3">
+            <section className="p-3 add-education-header">
                 <div className="container">
                     <div className="row">
-                        <div className="col">
-                            <p className="h3 text-teal">
-                                <i className="fa fa-user-clock" />
-                                {' '} Add Education
+                        <div className="col text-center">
+                            <h3 className="text-teal">
+                                <i className="fa fa-graduation-cap" /> Add Education
+                            </h3>
+                            <p>
+                                Provide details about your educational background. Fill in the fields below and click 'Add Education' to save.
                             </p>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci atque dignissimos distinctio dolor error expedita id incidunt, iusto laborum, molestiae mollitia optio placeat quod recusandae soluta unde, vel! Deserunt, quisquam!</p>
                         </div>
                     </div>
                 </div>
             </section>
-            <section>
+            <section className="p-3">
                 <div className="container">
                     <div className="row">
-                        <div className="col-md-8">
-                            <form onSubmit={submitAddEducation}>
-                                <div className="input-group mb-3">
-                                    <div className="input-group-prepend">
-                                        <span className="input-group-text bg-light-grey text-teal">School</span>
-                                    </div>
+                        <div className="col-md-8 mx-auto">
+                            <form onSubmit={submitAddEducation} className="add-education-form">
+                                <div className="form-group mb-3">
+                                    <label className="form-label">School</label>
                                     <input
                                         required
                                         name="school"
                                         value={education.school}
                                         onChange={updateInput}
-                                        type="text" className="form-control" placeholder="School" />
+                                        type="text"
+                                        className="form-control"
+                                        placeholder="School"
+                                    />
                                 </div>
-                                <div className="input-group mb-3">
-                                    <div className="input-group-prepend">
-                                        <span className="input-group-text bg-light-grey text-teal">Degree</span>
-                                    </div>
+                                <div className="form-group mb-3">
+                                    <label className="form-label">Degree</label>
                                     <input
                                         required
                                         name="degree"
                                         value={education.degree}
                                         onChange={updateInput}
-                                        type="text" className="form-control" placeholder="Degree" />
+                                        type="text"
+                                        className="form-control"
+                                        placeholder="Degree"
+                                    />
                                 </div>
-                                <div className="input-group mb-3">
-                                    <div className="input-group-prepend">
-                                        <span className="input-group-text bg-light-grey text-teal">FieldOfStudy</span>
-                                    </div>
+                                <div className="form-group mb-3">
+                                    <label className="form-label">Field Of Study</label>
                                     <input
                                         required
                                         name="fieldOfStudy"
                                         value={education.fieldOfStudy}
                                         onChange={updateInput}
-                                        type="text" className="form-control" placeholder="FieldOfStudy" />
+                                        type="text"
+                                        className="form-control"
+                                        placeholder="Field Of Study"
+                                    />
                                 </div>
-                                <div className="input-group mb-3">
-                                    <div className="input-group-prepend">
-                                        <span className="input-group-text bg-light-grey text-teal">From Date</span>
-                                    </div>
+                                <div className="form-group mb-3">
+                                    <label className="form-label">From Date</label>
                                     <input
                                         required
                                         name="from"
                                         value={education.from}
                                         onChange={updateInput}
-                                        type="date" className="form-control" />
+                                        type="date"
+                                        className="form-control"
+                                    />
                                 </div>
                                 <div className="form-check mb-3">
                                     <input
                                         name="current"
-                                        value={education.current}
+                                        checked={education.current}
                                         onChange={updateInput}
-                                        className="form-check-input" type="checkbox" id="defaultCheck1" />
-                                    <label className="form-check-label" htmlFor="defaultCheck1">
+                                        className="form-check-input"
+                                        type="checkbox"
+                                        id="currentCheck"
+                                    />
+                                    <label className="form-check-label" htmlFor="currentCheck">
                                         Current
                                     </label>
                                 </div>
-                                <div className="input-group mb-3">
-                                    <div className="input-group-prepend">
-                                        <span className="input-group-text bg-light-grey text-teal">To Date</span>
-                                    </div>
+                                <div className="form-group mb-3">
+                                    <label className="form-label">To Date</label>
                                     <input
-                                        required
                                         name="to"
                                         value={education.to}
                                         onChange={updateInput}
-                                        type="date" className="form-control"
-                                        disabled={education.current} />
+                                        type="date"
+                                        className="form-control"
+                                        disabled={education.current}
+                                    />
                                 </div>
-                                <div className="input-group mb-3">
-                                    <div className="input-group-prepend">
-                                        <span className="input-group-text bg-light-grey text-teal">Description</span>
-                                    </div>
+                                <div className="form-group mb-3">
+                                    <label className="form-label">Description</label>
                                     <textarea
                                         required
                                         name="description"
                                         value={education.description}
                                         onChange={updateInput}
-                                        rows="3" className="form-control" placeholder="Description" />
+                                        rows="3"
+                                        className="form-control"
+                                        placeholder="Description"
+                                    />
                                 </div>
-                                <div>
-                                    <input type="submit" value="add education" className="btn btn-teal btn-sm" />
-                                    <Link to="/profiles/dashboard" className="btn bg-light-grey btn-sm">Back</Link>
+                                <div className="d-flex justify-content-between">
+                                    <input type="submit" value="Add Education" className="btn btn-teal" />
+                                    <Link to="/profiles/dashboard" className="btn btn-secondary">Back</Link>
                                 </div>
                             </form>
                         </div>
@@ -145,6 +145,7 @@ let AddEducation = () => {
                 </div>
             </section>
         </React.Fragment>
-    )
+    );
 };
+
 export default AddEducation;

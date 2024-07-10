@@ -47,16 +47,16 @@ const Dashboard = () => {
                                     </h2>
                                     {user && <p className="h5">Welcome, {user.name}</p>}
                                     <div className="btn-group mt-3" role="group">
-                                        <Link to="/profiles/edit" className="btn btn-outline-primary">
+                                        <Link to="/profiles/edit" className="btn btn-teal btn-sm">
                                             <i className="fa fa-user-cog"></i> Edit Profile
                                         </Link>
-                                        <Link to="/profiles/add-experience" className="btn btn-outline-success">
+                                        <Link to="/profiles/add-experience" className="btn btn-teal btn-sm">
                                             <i className="fa fa-user-tie"></i> Add Experience
                                         </Link>
-                                        <Link to="/profiles/add-education" className="btn btn-outline-warning">
+                                        <Link to="/profiles/add-education" className="btn btn-teal btn-sm">
                                             <i className="fa fa-graduation-cap"></i> Add Education
                                         </Link>
-                                        <Link to="/profiles/add-course" className="btn btn-outline-info">
+                                        <Link to="/profiles/add-course" className="btn btn-teal btn-sm">
                                             <i className="fa fa-book"></i> Add Course
                                         </Link>
                                     </div>
@@ -210,7 +210,7 @@ const Dashboard = () => {
                             <div className="row">
                                 <div className="col">
                                     <p>You don't have a profile yet! Please create one.</p>
-                                    <Link to="/profiles/create" className="btn btn-outline-primary btn-sm">
+                                    <Link to="/profiles/create" className="btn btn-teal btn-sm">
                                         <i className="fa fa-user-cog"></i> Create Profile
                                     </Link>
                                 </div>

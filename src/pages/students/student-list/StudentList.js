@@ -47,16 +47,16 @@ const StudentList = () => {
                                             <div className="card profile-card shadow-sm">
                                                 <div className="card-body text-center">
                                                     <img src={profile.user.avatar} className="profile-avatar mb-3" alt={profile.user.name} />
-                                                    <h5>{profile.user.name}</h5>
+                                                    <h5 className="profile-name">{profile.user.name}</h5>
                                                     {profile.user.isAdmin && (
                                                         <p className="text-muted text-danger">ADMIN</p>
                                                     )}
-                                                    <p>{profile.location}</p>
+                                                    <p className="profile-location">{profile.location}</p>
                                                     <div className="profile-actions">
-                                                        <Link to={`/student/${profile._id}`} className="btn btn-teal btn-sm">View Profile</Link>
-                                                        <Link to={`/students/posts/${profile.user._id}`} className="btn btn-teal btn-sm">View Posts</Link>
+                                                        <Link to={`/student/${profile._id}`} className="btn btn-custom btn-sm me-2">View Profile</Link>
+                                                        <Link to={`/students/posts/${profile.user._id}`} className="btn btn-custom btn-sm me-2">View Posts</Link>
                                                         <button
-                                                            className="btn btn-sm btn-warning mt-2"
+                                                            className={`btn btn-sm ${profile.user.isAdmin ? 'btn-custom-danger' : 'btn-custom-warning'} mt-2`}
                                                             onClick={() => handleToggleAdmin(profile.user._id, profile.user.isAdmin)}
                                                         >
                                                             {profile.user.isAdmin ? 'Remove Admin' : 'Make Admin'}

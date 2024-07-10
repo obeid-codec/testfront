@@ -93,12 +93,12 @@ const StudentDetails = () => {
                                     <div className="row">
                                         <div className="col">
                                             {selectedProfile.courses.length > 0 && (
-                                                <div className="card mb-4">
-                                                    <div className="card-body bg-light-grey">
-                                                        <p className="h3">Courses</p>
-                                                        <ul className="list-group">
+                                                <div className="card mb-4 shadow-sm">
+                                                    <div className="card-body bg-light">
+                                                        <p className="h4 text-teal">Courses</p>
+                                                        <ul className="list-group list-group-flush">
                                                             {selectedProfile.courses.map(crs => (
-                                                                <li className="list-group-item my-2" key={crs._id}>
+                                                                <li className="list-group-item" key={crs._id}>
                                                                     <span><strong>Course:</strong> {crs.course}</span><br />
                                                                     <span><strong>Semester:</strong> {crs.semester}</span><br />
                                                                     <span><strong>Description:</strong> {crs.description}</span><br />
@@ -113,17 +113,17 @@ const StudentDetails = () => {
                                     <div className="row">
                                         <div className="col-md-6">
                                             {selectedProfile.experience.length > 0 && (
-                                                <div className="card mb-4">
-                                                    <div className="card-body bg-light-grey">
-                                                        <p className="h3">Experience</p>
-                                                        <ul className="list-group">
+                                                <div className="card mb-4 shadow-sm">
+                                                    <div className="card-body bg-light">
+                                                        <p className="h4 text-teal">Experience</p>
+                                                        <ul className="list-group list-group-flush">
                                                             {selectedProfile.experience.map(exp => (
-                                                                <li className="list-group-item my-2" key={exp._id}>
+                                                                <li className="list-group-item" key={exp._id}>
                                                                     <span><strong>Title:</strong> {exp.title}</span><br />
                                                                     <span><strong>Company:</strong> {exp.company}</span><br />
                                                                     <span><strong>Location:</strong> {exp.location}</span><br />
-                                                                    <span><strong>From:</strong> {exp.from}</span><br />
-                                                                    <span><strong>To:</strong> {exp.to}</span><br />
+                                                                    <span><strong>From:</strong> {new Date(exp.from).toLocaleDateString()}</span><br />
+                                                                    <span><strong>To:</strong> {exp.to ? new Date(exp.to).toLocaleDateString() : 'Present'}</span><br />
                                                                     <span><strong>Description:</strong> {exp.description}</span><br />
                                                                 </li>
                                                             ))}
@@ -134,17 +134,17 @@ const StudentDetails = () => {
                                         </div>
                                         <div className="col-md-6">
                                             {selectedProfile.education.length > 0 && (
-                                                <div className="card mb-4">
-                                                    <div className="card-body bg-light-grey">
-                                                        <p className="h3">Education</p>
-                                                        <ul className="list-group">
+                                                <div className="card mb-4 shadow-sm">
+                                                    <div className="card-body bg-light">
+                                                        <p className="h4 text-teal">Education</p>
+                                                        <ul className="list-group list-group-flush">
                                                             {selectedProfile.education.map(edu => (
-                                                                <li className="list-group-item my-2" key={edu._id}>
+                                                                <li className="list-group-item" key={edu._id}>
                                                                     <span><strong>School:</strong> {edu.school}</span><br />
                                                                     <span><strong>Degree:</strong> {edu.degree}</span><br />
                                                                     <span><strong>Field of Study:</strong> {edu.fieldOfStudy}</span><br />
-                                                                    <span><strong>From:</strong> {edu.from}</span><br />
-                                                                    <span><strong>To:</strong> {edu.to}</span><br />
+                                                                    <span><strong>From:</strong> {new Date(edu.from).toLocaleDateString()}</span><br />
+                                                                    <span><strong>To:</strong> {edu.to ? new Date(edu.to).toLocaleDateString() : 'Present'}</span><br />
                                                                     <span><strong>Description:</strong> {edu.description}</span><br />
                                                                 </li>
                                                             ))}
@@ -154,7 +154,6 @@ const StudentDetails = () => {
                                             )}
                                         </div>
                                     </div>
-
                                 </div>
                             </section>
                         </React.Fragment>

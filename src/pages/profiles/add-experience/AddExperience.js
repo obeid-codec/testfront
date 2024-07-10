@@ -1,150 +1,151 @@
-import React, { useState } from 'react';
+import React, { useState, Fragment } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch } from "react-redux";
 import * as profileActions from '../../../redux/profiles/profile.actions';
+import './AddExperience.css';  // Assuming you have a separate CSS file for styling
 
-let AddExperience = () => {
-    let dispatch = useDispatch();
-    let navigate = useNavigate();
+const AddExperience = () => {
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
 
-    let [experience, setExperience] = useState({
+    const [experience, setExperience] = useState({
         title: '',
         company: '',
         location: '',
         from: '',
         to: '',
-        current: '',
+        current: false,
         description: ''
     });
 
-    let updateInput = (e) => {
-        if (e.target.type === 'checkbox') {
-            setExperience({
-                ...experience,
-                [e.target.name]: e.target.checked
-            });
-        }
-        else {
-            setExperience({
-                ...experience,
-                [e.target.name]: e.target.value
-            });
-        }
+    const updateInput = (e) => {
+        const { name, value, type, checked } = e.target;
+        setExperience({
+            ...experience,
+            [name]: type === 'checkbox' ? checked : value
+        });
     };
 
-    let submitAddExperience = (e) => {
+    const submitAddExperience = (e) => {
         e.preventDefault();
         dispatch(profileActions.addExperience(experience, navigate));
     };
 
     return (
-        <React.Fragment>
-            {/*<pre>{JSON.stringify(experience)}</pre>*/}
-            <section className="p-3">
+        <Fragment>
+            <section className="p-3 add-experience-header">
                 <div className="container">
                     <div className="row">
-                        <div className="col">
-                            <p className="h3 text-teal">
-                                <i className="fa fa-user-clock" />
-                                {' '} Add Experience
+                        <div className="col text-center">
+                            <h3 className="text-teal">
+                                <i className="fa fa-user-clock" /> Add Experience
+                            </h3>
+                            <p>
+                                Provide details about your professional experience. Fill in the fields below and click 'Add Experience' to save.
                             </p>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci atque dignissimos distinctio dolor error expedita id incidunt, iusto laborum, molestiae mollitia optio placeat quod recusandae soluta unde, vel! Deserunt, quisquam!</p>
                         </div>
                     </div>
                 </div>
             </section>
-            <section>
+            <section className="p-3">
                 <div className="container">
                     <div className="row">
-                        <div className="col-md-8">
-                            <form onSubmit={submitAddExperience}>
-                                <div className="input-group mb-3">
-                                    <div className="input-group-prepend">
-                                        <span className="input-group-text bg-light-grey text-teal">Title</span>
-                                    </div>
+                        <div className="col-md-8 mx-auto">
+                            <form onSubmit={submitAddExperience} className="add-experience-form">
+                                <div className="form-group mb-3">
+                                    <label className="form-label">Title</label>
                                     <input
                                         required
                                         name="title"
                                         value={experience.title}
                                         onChange={updateInput}
-                                        type="text" className="form-control" placeholder="Title" />
+                                        type="text"
+                                        className="form-control"
+                                        placeholder="Title"
+                                    />
                                 </div>
-                                <div className="input-group mb-3">
-                                    <div className="input-group-prepend">
-                                        <span className="input-group-text bg-light-grey text-teal">Company</span>
-                                    </div>
+                                <div className="form-group mb-3">
+                                    <label className="form-label">Company</label>
                                     <input
                                         required
                                         name="company"
                                         value={experience.company}
                                         onChange={updateInput}
-                                        type="text" className="form-control" placeholder="Company" />
+                                        type="text"
+                                        className="form-control"
+                                        placeholder="Company"
+                                    />
                                 </div>
-                                <div className="input-group mb-3">
-                                    <div className="input-group-prepend">
-                                        <span className="input-group-text bg-light-grey text-teal">Location</span>
-                                    </div>
+                                <div className="form-group mb-3">
+                                    <label className="form-label">Location</label>
                                     <input
                                         required
                                         name="location"
                                         value={experience.location}
                                         onChange={updateInput}
-                                        type="text" className="form-control" placeholder="Location" />
+                                        type="text"
+                                        className="form-control"
+                                        placeholder="Location"
+                                    />
                                 </div>
-                                <div className="input-group mb-3">
-                                    <div className="input-group-prepend">
-                                        <span className="input-group-text bg-light-grey text-teal">From Date</span>
-                                    </div>
+                                <div className="form-group mb-3">
+                                    <label className="form-label">From Date</label>
                                     <input
                                         required
                                         name="from"
                                         value={experience.from}
                                         onChange={updateInput}
-                                        type="date" className="form-control" />
+                                        type="date"
+                                        className="form-control"
+                                    />
                                 </div>
                                 <div className="form-check mb-3">
                                     <input
                                         name="current"
-                                        value={experience.current}
+                                        checked={experience.current}
                                         onChange={updateInput}
-                                        className="form-check-input" type="checkbox" id="defaultCheck1" />
-                                    <label className="form-check-label" htmlFor="defaultCheck1">
+                                        className="form-check-input"
+                                        type="checkbox"
+                                        id="currentCheck"
+                                    />
+                                    <label className="form-check-label" htmlFor="currentCheck">
                                         Current
                                     </label>
                                 </div>
-                                <div className="input-group mb-3">
-                                    <div className="input-group-prepend">
-                                        <span className="input-group-text bg-light-grey text-teal">To Date</span>
-                                    </div>
+                                <div className="form-group mb-3">
+                                    <label className="form-label">To Date</label>
                                     <input
-                                        required
                                         name="to"
                                         value={experience.to}
                                         onChange={updateInput}
-                                        type="date" className="form-control"
-                                        disabled={experience.current} />
+                                        type="date"
+                                        className="form-control"
+                                        disabled={experience.current}
+                                    />
                                 </div>
-                                <div className="input-group mb-3">
-                                    <div className="input-group-prepend">
-                                        <span className="input-group-text bg-light-grey text-teal">Description</span>
-                                    </div>
+                                <div className="form-group mb-3">
+                                    <label className="form-label">Description</label>
                                     <textarea
                                         required
                                         name="description"
                                         value={experience.description}
                                         onChange={updateInput}
-                                        rows="3" className="form-control" placeholder="Description" />
+                                        rows="3"
+                                        className="form-control"
+                                        placeholder="Description"
+                                    />
                                 </div>
-                                <div>
-                                    <input type="submit" value="add experience" className="btn btn-teal btn-sm" />
-                                    <Link to="/profiles/dashboard" className="btn bg-light-grey btn-sm">Back</Link>
+                                <div className="d-flex justify-content-between">
+                                    <input type="submit" value="Add Experience" className="btn btn-teal" />
+                                    <Link to="/profiles/dashboard" className="btn btn-secondary">Back</Link>
                                 </div>
                             </form>
                         </div>
                     </div>
                 </div>
             </section>
-        </React.Fragment>
-    )
+        </Fragment>
+    );
 };
+
 export default AddExperience;

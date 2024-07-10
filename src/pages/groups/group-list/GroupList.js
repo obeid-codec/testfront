@@ -53,39 +53,44 @@ const GroupList = () => {
             <section className="p-3">
                 <div className="container">
                     <div className="row mb-4">
-                        <div className="col">
-                            <h3 className="text-teal">UniConnect Groups</h3>
-                            <h5>Add a New Study Group</h5>
+                        <div className="col text-center">
+                            <h3 className="text-teal"><i className="fa fa-users" /> UniConnect Groups</h3>
+                            <p className="lead">Join or create study groups to collaborate and share knowledge.</p>
                         </div>
                     </div>
                     {user.isAdmin && (
                         <div className="row mb-4">
-                            <div className="col-md-8">
-                                <form onSubmit={submitCreateGroup}>
-                                    <div className="mb-3">
-                                        <input
-                                            required
-                                            name="name"
-                                            value={localGroup.name}
-                                            onChange={updateInput}
-                                            type="text"
-                                            className="form-control"
-                                            placeholder="Group Name"
-                                        />
+                            <div className="col-md-8 mx-auto">
+                                <div className="card shadow-sm">
+                                    <div className="card-body">
+                                        <h5 className="card-title">Add a New Study Group</h5>
+                                        <form onSubmit={submitCreateGroup}>
+                                            <div className="form-group mb-3">
+                                                <input
+                                                    required
+                                                    name="name"
+                                                    value={localGroup.name}
+                                                    onChange={updateInput}
+                                                    type="text"
+                                                    className="form-control"
+                                                    placeholder="Group Name"
+                                                />
+                                            </div>
+                                            <div className="form-group mb-3">
+                                                <textarea
+                                                    required
+                                                    name="description"
+                                                    value={localGroup.description}
+                                                    onChange={updateInput}
+                                                    rows="3"
+                                                    className="form-control"
+                                                    placeholder="Description"
+                                                />
+                                            </div>
+                                            <button type="submit" className="btn btn-teal">Create Group</button>
+                                        </form>
                                     </div>
-                                    <div className="mb-3">
-                                        <textarea
-                                            required
-                                            name="description"
-                                            value={localGroup.description}
-                                            onChange={updateInput}
-                                            rows="3"
-                                            className="form-control"
-                                            placeholder="Description"
-                                        />
-                                    </div>
-                                    <button type="submit" className="btn btn-teal">Create Group</button>
-                                </form>
+                                </div>
                             </div>
                         </div>
                     )}
@@ -93,51 +98,51 @@ const GroupList = () => {
                 </div>
             </section>
 
-            <section>
+            <section className="p-3">
                 {loading ? (
                     <Spinner />
                 ) : (
-                    <Fragment>
-                        {groups.length > 0 && (
-                            <div className="container">
-                                <div className="row">
-                                    {groups.map((group) => (
-                                        <div className="col-lg-4 col-md-6 mb-4" key={group._id}>
-                                            <div className="card h-100">
-                                                <div className="card-body d-flex flex-column">
-                                                    <h5 className="card-title">{group.name}</h5>
-                                                    <p className="card-text">{group.description}</p>
-                                                    <div className="mt-auto">
-                                                        <Link to={`/groups/${group._id}`} className="btn btn-outline-primary btn-sm me-2 mb-2">
-                                                            Visit
-                                                        </Link>
-
-                                                        <Link to={`/events/${group._id}`} className="btn btn-outline-primary btn-sm me-2 mb-2">
-                                                            EVENTS
-                                                        </Link>
-
-                                                        {user.isAdmin && (
-                                                            <>
-                                                                <Link to={`/groups/edit/${group._id}`} className="btn btn-outline-warning btn-sm me-2 mb-2">
-                                                                    Update
-                                                                </Link>
-                                                                <button
-                                                                    className="btn btn-outline-danger btn-sm mb-2"
-                                                                    onClick={() => clickDeleteGroup(group._id)}
-                                                                >
-                                                                    Delete
-                                                                </button>
-                                                            </>
-                                                        )}
-                                                    </div>
+                    <div className="container">
+                        <div className="row">
+                            {groups.length > 0 ? (
+                                groups.map((group) => (
+                                    <div className="col-lg-4 col-md-6 mb-4" key={group._id}>
+                                        <div className="card h-100 shadow-sm">
+                                            <div className="card-body d-flex flex-column">
+                                                <h5 className="card-title">{group.name}</h5>
+                                                <p className="card-text">{group.description}</p>
+                                                <div className="mt-auto">
+                                                    <Link to={`/groups/${group._id}`} className="btn btn-outline-primary btn-sm me-2 mb-2">
+                                                        Visit
+                                                    </Link>
+                                                    <Link to={`/events/${group._id}`} className="btn btn-outline-secondary btn-sm me-2 mb-2">
+                                                        Events
+                                                    </Link>
+                                                    {user.isAdmin && (
+                                                        <>
+                                                            <Link to={`/groups/edit/${group._id}`} className="btn btn-outline-warning btn-sm me-2 mb-2">
+                                                                Update
+                                                            </Link>
+                                                            <button
+                                                                className="btn btn-outline-danger btn-sm mb-2"
+                                                                onClick={() => clickDeleteGroup(group._id)}
+                                                            >
+                                                                Delete
+                                                            </button>
+                                                        </>
+                                                    )}
                                                 </div>
                                             </div>
                                         </div>
-                                    ))}
+                                    </div>
+                                ))
+                            ) : (
+                                <div className="col text-center">
+                                    <p>No groups found.</p>
                                 </div>
-                            </div>
-                        )}
-                    </Fragment>
+                            )}
+                        </div>
+                    </div>
                 )}
             </section>
         </Fragment>

@@ -2,6 +2,7 @@ import React, { Fragment } from 'react';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import * as userReducer from '../../redux/users/users.reducer';
+import './Home.css'; // Assuming you have a separate CSS file for styling
 
 const Home = () => {
     const userInfo = useSelector((state) => state[userReducer.usersFeatureKey]);
@@ -18,8 +19,8 @@ const Home = () => {
                             {
                                 !isAuthenticated && (
                                     <>
-                                        <Link to="/users/register" className="btn btn-light btn-sm text-teal">Register</Link>
-                                        <Link to="/users/login" className="btn btn-teal btn-sm">Login</Link>
+                                        <Link to="/users/register" className="btn btn-register btn-sm">Register</Link>
+                                        <Link to="/users/login" className="btn btn-login btn-sm">Login</Link>
                                     </>
                                 )
                             }

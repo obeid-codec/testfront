@@ -62,15 +62,11 @@ const EventList = () => {
                                     <p className="h5">Total Events Available: {events.length}</p>
                                 </div>
                                 <div>
-                                    {
-                                        user.isAdmin && (
-                                            <>
-                                                <Link to="/events/create" className="btn btn-primary">
-                                                    ADD NEW EVENT
-                                                </Link>
-                                            </>
-                                        )
-                                    }
+                                    {user.isAdmin && (
+                                        <Link to="/events/create" className="btn btn-teal">
+                                            ADD NEW EVENT
+                                        </Link>
+                                    )}
                                 </div>
                             </div>
                         </div>
@@ -86,43 +82,45 @@ const EventList = () => {
                                 <div className="row">
                                     {events.map(event => (
                                         <div className="col-md-6 col-lg-4" key={event._id}>
-                                            <div className="card mt-3">
+                                            <div className="card event-card mt-3">
                                                 <img src={`http://127.0.0.1:3000/${event.image}`} alt={event.name} className="card-img-top event-img" />
                                                 <div className="card-body">
                                                     <h4 className="card-title">{event.name}</h4>
                                                     <p className="card-text">DATE: {new Date(event.eventDate).toLocaleString()}</p>
                                                     <h6 className="card-text">Group: {getGroupNameById(event.relatedGroupID)}</h6>
-                                                    <Link to={`/events/event/${event._id}`} className="btn btn-outline-primary btn-sm mt-3">
-                                                        <i className="fas fa-info-circle"></i> More ..
-                                                    </Link>
-                                                    {user.isAdmin && (
-                                                        <>
+                                                    <div className="d-flex justify-content-between mt-3">
+                                                        <Link to={`/events/event/${event._id}`} className="btn btn-outline-primary btn-sm">
+                                                            <i className="fas fa-info-circle"></i> More ..
+                                                        </Link>
+                                                        {user.isAdmin && (
                                                             <button
-                                                                className="btn btn-outline-danger btn-sm mt-2"
+                                                                className="btn btn-outline-danger btn-sm"
                                                                 onClick={() => clickDeleteEvent(event._id)}
                                                             >
                                                                 Delete
                                                             </button>
-                                                        </>
-                                                    )}
+                                                        )}
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     ))}
                                 </div>
                             </div>
-                            {groupId ?
-                                <Link to={`/events/`} className="btn btn-outline-primary btn-sm mt-3">
-                                    <i className="fas fa-info-circle"></i> Back to all events
-                                </Link>
-                                : ""}
+                            {groupId &&
+                                <div className="text-center mt-4">
+                                    <Link to="/events/" className="btn btn-outline-primary btn-sm">
+                                        <i className="fas fa-arrow-left"></i> Back to all events
+                                    </Link>
+                                </div>
+                            }
                         </section>
                     ) : (
                         <section className="p-3">
                             <div className="container">
                                 <div className="row">
-                                    <div className="col">
-                                        <p className="h5 text-center">No events available</p>
+                                    <div className="col text-center">
+                                        <p className="h5">No events available</p>
                                     </div>
                                 </div>
                             </div>

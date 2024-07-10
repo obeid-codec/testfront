@@ -4,13 +4,13 @@ import * as profileActions from '../../../redux/profiles/profile.actions';
 import * as profileReducer from '../../../redux/profiles/profile.reducer';
 import { useDispatch, useSelector } from "react-redux";
 import Spinner from "../../../layout/misc/spinner/Spinner";
+import './EditProfile.css';  // Assuming you have a separate CSS file for styling
 
+const EditProfile = () => {
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
 
-let EditProfile = () => {
-    let dispatch = useDispatch();
-    let navigate = useNavigate();
-
-    let [localProfile, setLocalProfile] = useState({
+    const [localProfile, setLocalProfile] = useState({
         youtube: '',
         facebook: '',
         twitter: '',
@@ -18,11 +18,8 @@ let EditProfile = () => {
         instagram: ''
     });
 
-    let profileInfo = useSelector((state) => {
-        return state[profileReducer.profileFeatureKey];
-    });
-
-    let { loading, profile } = profileInfo;
+    const profileInfo = useSelector((state) => state[profileReducer.profileFeatureKey]);
+    const { loading, profile } = profileInfo;
 
     useEffect(() => {
         dispatch(profileActions.getProfile());
@@ -35,97 +32,111 @@ let EditProfile = () => {
         });
     }, [dispatch]);
 
-    let updateInput = (event) => {
+    const updateInput = (event) => {
         setLocalProfile({
             ...localProfile,
             [event.target.name]: event.target.value
         });
     };
 
-    let submitUpdateProfile = (event) => {
+    const submitUpdateProfile = (event) => {
         event.preventDefault();
         dispatch(profileActions.updateProfile(localProfile, navigate));
     };
 
     return (
         <Fragment>
-            <section className="p-3">
+            <section className="p-3 edit-profile-header">
                 <div className="container">
                     <div className="row">
-                        <div className="col">
-                            <p className="h3 text-teal">
-                                <i className="fa fa-user-circle" />
-                                Edit Profile
+                        <div className="col text-center">
+                            <h3 className="text-teal">
+                                <i className="fa fa-user-circle" /> Edit Profile
+                            </h3>
+                            <p>
+                                Update your social links to stay connected. Fill in the fields below and click 'Update' to save changes.
                             </p>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci atque dignissimos distinctio dolor error expedita id incidunt, iusto laborum, molestiae mollitia optio placeat quod recusandae soluta unde, vel! Deserunt, quisquam!</p>
                         </div>
                     </div>
                 </div>
             </section>
-            {
-                loading ? <Spinner /> :
-                    <Fragment>
-                        {/* <pre>{JSON.stringify(localProfile)}</pre>*/}
-                        <section>
-                            <div className="container">
-                                <div className="row">
-                                    <div className="col-md-8">
-                                        <form onSubmit={submitUpdateProfile}>
-
-                                            <small>Social Links</small>
-                                            <div className="form-group">
-                                                <input
-                                                    required
-                                                    name="youtube"
-                                                    value={localProfile.youtube}
-                                                    onChange={updateInput}
-                                                    type="text" className="form-control" placeholder="YouTube" />
-                                            </div>
-                                            <div className="form-group">
-                                                <input
-                                                    required
-                                                    name="twitter"
-                                                    value={localProfile.twitter}
-                                                    onChange={updateInput}
-                                                    type="text" className="form-control" placeholder="Twitter" />
-                                            </div>
-                                            <div className="form-group">
-                                                <input
-                                                    required
-                                                    name="facebook"
-                                                    value={localProfile.facebook}
-                                                    onChange={updateInput}
-                                                    type="text" className="form-control" placeholder="Facebook" />
-                                            </div>
-                                            <div className="form-group">
-                                                <input
-                                                    required
-                                                    name="linkedin"
-                                                    value={localProfile.linkedin}
-                                                    onChange={updateInput}
-                                                    type="text" className="form-control" placeholder="LinkedIn" />
-                                            </div>
-                                            <div className="form-group">
-                                                <input
-                                                    required
-                                                    name="instagram"
-                                                    value={localProfile.instagram}
-                                                    onChange={updateInput}
-                                                    type="text" className="form-control" placeholder="Instagram" />
-                                            </div>
-                                            <div>
-                                                <input type="submit" className="btn btn-teal btn-sm" value="Update" />
-                                                <Link to="/profiles/dashboard" className="btn bg-light-grey btn-sm">Back</Link>
-                                            </div>
-                                        </form>
-                                    </div>
+            {loading ? <Spinner /> : (
+                <Fragment>
+                    <section className="p-3">
+                        <div className="container">
+                            <div className="row">
+                                <div className="col-md-8 mx-auto">
+                                    <form onSubmit={submitUpdateProfile} className="edit-profile-form">
+                                        <small className="text-muted mb-2">Social Links</small>
+                                        <div className="form-group mb-3">
+                                            <input
+                                                required
+                                                name="youtube"
+                                                value={localProfile.youtube}
+                                                onChange={updateInput}
+                                                type="text"
+                                                className="form-control"
+                                                placeholder="YouTube"
+                                            />
+                                        </div>
+                                        <div className="form-group mb-3">
+                                            <input
+                                                required
+                                                name="twitter"
+                                                value={localProfile.twitter}
+                                                onChange={updateInput}
+                                                type="text"
+                                                className="form-control"
+                                                placeholder="Twitter"
+                                            />
+                                        </div>
+                                        <div className="form-group mb-3">
+                                            <input
+                                                required
+                                                name="facebook"
+                                                value={localProfile.facebook}
+                                                onChange={updateInput}
+                                                type="text"
+                                                className="form-control"
+                                                placeholder="Facebook"
+                                            />
+                                        </div>
+                                        <div className="form-group mb-3">
+                                            <input
+                                                required
+                                                name="linkedin"
+                                                value={localProfile.linkedin}
+                                                onChange={updateInput}
+                                                type="text"
+                                                className="form-control"
+                                                placeholder="LinkedIn"
+                                            />
+                                        </div>
+                                        <div className="form-group mb-3">
+                                            <input
+                                                required
+                                                name="instagram"
+                                                value={localProfile.instagram}
+                                                onChange={updateInput}
+                                                type="text"
+                                                className="form-control"
+                                                placeholder="Instagram"
+                                            />
+                                        </div>
+                                        <div className="d-flex justify-content-between">
+                                            <input type="submit" className="btn btn-teal" value="Update" />
+                                            <Link to="/profiles/dashboard" className="btn btn-secondary">Back</Link>
+                                        </div>
+                                    </form>
                                 </div>
                             </div>
-                        </section>
-                    </Fragment>
-            }
+                        </div>
+                    </section>
+                </Fragment>
+            )}
             <div style={{ marginBottom: '150px' }} />
         </Fragment>
-    )
+    );
 };
+
 export default EditProfile;
