@@ -12,6 +12,7 @@ const GroupList = () => {
         name: '',
         description: ''
     });
+    const [filter, setFilter] = useState('all');
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -23,8 +24,12 @@ const GroupList = () => {
     const { loading, groups } = groupInfo;
 
     useEffect(() => {
-        dispatch(groupActions.getGroups());
-    }, [dispatch]);
+        if (filter === 'joined') {
+            dispatch(groupActions.getGroup());
+        } else {
+            dispatch(groupActions.getGroups());
+        }
+    }, [dispatch, filter]);
 
     const updateInput = (e) => {
         setLocalGroup({
@@ -46,6 +51,26 @@ const GroupList = () => {
         dispatch(groupActions.deleteGroup(groupId)).then(() => {
             dispatch(groupActions.getGroups());
         });
+    };
+
+    const clickJoin = (groupId) => {
+        dispatch(groupActions.joinGroup(groupId)).then(() => {
+            dispatch(groupActions.getGroups());
+        });
+    };
+
+    const clickLeave = (groupId) => {
+        dispatch(groupActions.leaveGroup(groupId)).then(() => {
+            dispatch(groupActions.getGroups());
+        });
+    };
+
+    const showAllGroups = () => {
+        setFilter('all');
+    };
+
+    const showJoinedGroups = () => {
+        setFilter('joined');
     };
 
     return (
@@ -99,6 +124,24 @@ const GroupList = () => {
             </section>
 
             <section className="p-3">
+                <div className="container mb-4">
+                    <div className="row">
+                        <div className="col text-center">
+                            <button
+                                className={`btn ${filter === 'all' ? 'btn-teal' : 'btn-outline-teal'} me-2`}
+                                onClick={showAllGroups}
+                            >
+                                All
+                            </button>
+                            <button
+                                className={`btn ${filter === 'joined' ? 'btn-teal' : 'btn-outline-teal'}`}
+                                onClick={showJoinedGroups}
+                            >
+                                Joined
+                            </button>
+                        </div>
+                    </div>
+                </div>
                 {loading ? (
                     <Spinner />
                 ) : (
@@ -111,6 +154,9 @@ const GroupList = () => {
                                             <div className="card-body d-flex flex-column">
                                                 <h5 className="card-title">{group.name}</h5>
                                                 <p className="card-text">{group.description}</p>
+                                                {group.members.includes(user._id) && (
+                                                    <span className="badge bg-success position-absolute top-0 end-0 m-2">Joined</span>
+                                                )}
                                                 <div className="mt-auto">
                                                     <Link to={`/groups/${group._id}`} className="btn btn-outline-primary btn-sm me-2 mb-2">
                                                         Visit
@@ -132,6 +178,23 @@ const GroupList = () => {
                                                         </>
                                                     )}
                                                 </div>
+                                                <Fragment>
+                                                    {group.members.includes(user._id) ? (
+                                                        <button
+                                                            className="btn btn-outline-danger btn-sm mb-2"
+                                                            onClick={() => clickLeave(group._id)}
+                                                        >
+                                                            Leave
+                                                        </button>
+                                                    ) : (
+                                                        <button
+                                                            className="btn btn-outline-success btn-sm mb-2"
+                                                            onClick={() => clickJoin(group._id)}
+                                                        >
+                                                            Join
+                                                        </button>
+                                                    )}
+                                                </Fragment>
                                             </div>
                                         </div>
                                     </div>
