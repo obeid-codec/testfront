@@ -2,7 +2,13 @@
     color: #20c997;
 }
 
+.text-dark {
+    color: #343a40;
+}
+
 .profile-header {
+    background-color: #f8f9fa;
+    /* Light background for better contrast */
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     margin-bottom: 30px;

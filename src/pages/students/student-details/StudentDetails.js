@@ -36,7 +36,7 @@ const StudentDetails = () => {
                                 </div>
                             </section>
                             <section>
-                                <div className="container bg-teal text-white text-center p-3 profile-header">
+                                <div className="container profile-header text-center p-3">
                                     <div className="row">
                                         <div className="col">
                                             <img
@@ -46,41 +46,41 @@ const StudentDetails = () => {
                                                 height="200"
                                                 className="rounded-circle profile-img mb-3"
                                             />
-                                            <p className="h2">{selectedProfile.user.name}</p>
-                                            <p>{selectedProfile.location}</p>
+                                            <p className="h2 text-teal">{selectedProfile.user.name}</p>
+                                            <p className="text-muted">{selectedProfile.location}</p>
                                             <div className="d-flex justify-content-center">
                                                 {selectedProfile.social.facebook && (
                                                     <div className="p-2">
                                                         <a href={selectedProfile.social.facebook} target="_blank" rel="noopener noreferrer">
-                                                            <i className="fab fa-facebook" />
+                                                            <i className="fab fa-facebook text-dark" />
                                                         </a>
                                                     </div>
                                                 )}
                                                 {selectedProfile.social.twitter && (
                                                     <div className="p-2">
                                                         <a href={selectedProfile.social.twitter} target="_blank" rel="noopener noreferrer">
-                                                            <i className="fab fa-twitter" />
+                                                            <i className="fab fa-twitter text-dark" />
                                                         </a>
                                                     </div>
                                                 )}
                                                 {selectedProfile.social.linkedin && (
                                                     <div className="p-2">
                                                         <a href={selectedProfile.social.linkedin} target="_blank" rel="noopener noreferrer">
-                                                            <i className="fab fa-linkedin" />
+                                                            <i className="fab fa-linkedin text-dark" />
                                                         </a>
                                                     </div>
                                                 )}
                                                 {selectedProfile.social.youtube && (
                                                     <div className="p-2">
                                                         <a href={selectedProfile.social.youtube} target="_blank" rel="noopener noreferrer">
-                                                            <i className="fab fa-youtube" />
+                                                            <i className="fab fa-youtube text-dark" />
                                                         </a>
                                                     </div>
                                                 )}
                                                 {selectedProfile.social.instagram && (
                                                     <div className="p-2">
                                                         <a href={selectedProfile.social.instagram} target="_blank" rel="noopener noreferrer">
-                                                            <i className="fab fa-instagram" />
+                                                            <i className="fab fa-instagram text-dark" />
                                                         </a>
                                                     </div>
                                                 )}
